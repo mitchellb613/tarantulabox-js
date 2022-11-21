@@ -21,37 +21,37 @@
 import Route from '@ioc:Adonis/Core/Route'
 
 Route.get('/', async ({ view }) => {
-  return view.render('welcome')
+  return view.render('home')
 })
 
-Route.get('/user/home', () => {
+Route.get('/user/home', async () => {
   return 'Render view of user home with their tarantulas in a table'
 })
 
-Route.get('/user/signup', () => {
+Route.get('/user/signup', async () => {
   return 'Render form for user signup'
 })
 
-Route.post('/user/signup', () => {
+Route.post('/user/signup', async () => {
   return 'Post route for user signup'
 })
 
-Route.get('/user/login', () => {
+Route.get('/user/login', async () => {
   return 'Render form for user login'
 })
 
-Route.post('/user/login', () => {
+Route.post('/user/login', async () => {
   return 'Post route for user login'
 })
 
-Route.get('/tarantula/create', () => {
+Route.get('/tarantula/create', async () => {
   return 'Render form for creating new tarantula'
 })
 
-Route.post('/tarantula/create', () => {
+Route.post('/tarantula/create', async () => {
   return 'Post route for making new tarantula'
 })
 
-Route.get('/tarantula/view/:id', () => {
+Route.get('/tarantula/view/:id', async () => {
   return 'Render view of tarantula with id'
 })
