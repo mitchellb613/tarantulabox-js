@@ -6,6 +6,9 @@ export default class Tarantula extends BaseModel {
   public id: number
 
   @column()
+  public user_id: number
+
+  @column()
   public name: string
 
   @column()
