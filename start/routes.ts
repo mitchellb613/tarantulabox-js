@@ -21,7 +21,7 @@
 import Route from '@ioc:Adonis/Core/Route'
 
 Route.get('/', async ({ view }) => {
-  return view.render('home')
+  return await view.render('home')
 })
 
 Route.get('/user/home', async () => {
