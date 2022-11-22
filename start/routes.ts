@@ -32,9 +32,7 @@ Route.get('/user/signup', async ({ view }) => {
   return await view.render('signup')
 })
 
-Route.post('/user/signup', async () => {
-  return 'Post route for user signup'
-})
+Route.post('/user/signup', 'SignupController.post')
 
 Route.get('/user/login', async () => {
   return 'Render form for user login'
