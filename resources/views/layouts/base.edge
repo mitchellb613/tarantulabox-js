@@ -12,6 +12,9 @@
         <h1><a href="/">Tarantulabox</a></h1>
     </header>
     <main>
+      @if(flashMessages.has('global_message'))
+          <div>{{ flashMessages.get('global_message') }}</div>
+      @end
         @!section('main')
     </main>
     <footer>

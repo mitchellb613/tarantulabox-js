@@ -23,7 +23,7 @@ export default class SignupController {
         email: payload.email,
         password: payload.password,
       })
-      ctx.session.flash('message', 'Sign up successful please login')
+      ctx.session.flash('global_message', 'Sign up successful please login')
       return ctx.response.redirect('/user/login')
     } catch (error) {
       if (error.code == 23505) {
