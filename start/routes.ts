@@ -36,7 +36,8 @@ Route.get('/user/login', 'LoginController.index')
 
 Route.post('/user/login', 'LoginController.post')
 
-Route.post('/user/logout', async ({ auth, response }) => {
+Route.post('/user/logout', async ({ auth, response, session }) => {
+  session.flash('global_message', 'Logged out successfully')
   await auth.use('web').logout()
   response.redirect('/')
 })
