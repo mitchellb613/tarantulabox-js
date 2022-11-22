@@ -16,7 +16,9 @@ export default class User extends BaseModel {
   @column()
   public rememberMeToken: string | null
 
-  @hasMany(() => Tarantula)
+  @hasMany(() => Tarantula, {
+    foreignKey: 'user_id',
+  })
   public tarantulas: HasMany<typeof Tarantula>
 
   @column.dateTime({ autoCreate: true })

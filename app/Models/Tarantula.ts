@@ -1,7 +1,11 @@
 import { DateTime } from 'luxon'
-import { BaseModel, column } from '@ioc:Adonis/Lucid/Orm'
+import { BaseModel, belongsTo, BelongsTo, column } from '@ioc:Adonis/Lucid/Orm'
+import User from './User'
 
 export default class Tarantula extends BaseModel {
+  @belongsTo(() => User)
+  public user: BelongsTo<typeof User>
+
   @column({ isPrimary: true })
   public id: number
 
