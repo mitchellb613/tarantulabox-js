@@ -36,6 +36,11 @@ Route.get('/user/login', 'LoginController.index')
 
 Route.post('/user/login', 'LoginController.post')
 
+Route.post('/user/logout', async ({ auth, response }) => {
+  await auth.use('web').logout()
+  response.redirect('/')
+})
+
 Route.get('/tarantula/create', async () => {
   return 'Render form for creating new tarantula'
 })
