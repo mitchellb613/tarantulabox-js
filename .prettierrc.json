@@ -1,0 +1,10 @@
+{
+  "overrides": [
+    {
+      "files": "*.edge",
+      "options": {
+        "parser": "html"
+      }
+    }
+  ]
+}
