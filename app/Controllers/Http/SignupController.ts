@@ -10,22 +10,27 @@ export default class SignupController {
       password: schema.string([rules.minLength(8)]),
     })
     try {
-      const payload = await ctx.request.validate({
+      var payload = await ctx.request.validate({
         schema: signupSchema,
       })
-      const user = await User.create({
-        email: payload.email,
-        password: payload.password,
-      })
-      return 'User created with id: ' + user.id
     } catch (error) {
-      if (error.code == 23505) {
-        ctx.session.flash('email_in_use_error', 'Email already in use')
-      }
-      //   return HandleFormError(ctx, error)
       ctx.session.flashExcept(['_csrf', 'password', '_method'])
       ctx.session.flash('errors', error.messages)
       return ctx.response.redirect('back', true)
+    }
+    try {
+      await User.create({
+        email: payload.email,
+        password: payload.password,
+      })
+      ctx.session.flash('message', 'Sign up successful please login')
+      return ctx.response.redirect('/user/login')
+    } catch (error) {
+      if (error.code == 23505) {
+        ctx.session.flash('email_in_use_error', 'Email already in use')
+        return ctx.response.redirect('back', true)
+      }
+      return ctx.response.badRequest('Bad request')
     }
   }
 }
