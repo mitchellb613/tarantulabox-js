@@ -11,6 +11,7 @@
     <header>
         <h1><a href="/">Tarantulabox</a></h1>
     </header>
+    @include('partials/nav')
     <main>
       @if(flashMessages.has('global_message'))
           <div>{{ flashMessages.get('global_message') }}</div>
