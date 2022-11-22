@@ -19,6 +19,9 @@ export default class Tarantula extends BaseModel {
   public species: string
 
   @column()
+  public img_url: string
+
+  @column()
   public notify: boolean
 
   @column()
