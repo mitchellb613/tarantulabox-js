@@ -1,0 +1,26 @@
+@layout('layouts/base')
+@set('title', 'Dashboard')
+
+@section('main')
+<div>
+    <a href="/tarantula/create">Add new</a>
+    <table>
+        <tr>
+            <th>Image</th>
+            <th>Name</th>
+            <th>Species</th>
+            <th>Notify</th>
+            <th>Interval</th>
+        </tr>
+        @each(tarantula in tarantulas)
+            <tr>
+                <td><img src={{tarantula.img_url}} alt={{"Photo of " + tarantula.name}} /></td>
+                <td>{{tarantula.name}}</td>
+                <td>{{tarantula.species}}</td>
+                <td>{{tarantula.notify}}</td>
+                <td>{{tarantula.reminder_interval_days}}</td>
+            </tr>
+        @end
+    </table>
+</div>
+@end

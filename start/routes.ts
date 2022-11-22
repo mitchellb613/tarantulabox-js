@@ -39,9 +39,7 @@ Route.group(() => {
     response.redirect('/')
   })
 
-  Route.get('/user/home', async () => {
-    return 'Render view of user home with their tarantulas in a table'
-  })
+  Route.get('/user/home', 'DashboardController.index')
 
   Route.get('/tarantula/create', async () => {
     return 'Render form for creating new tarantula'
