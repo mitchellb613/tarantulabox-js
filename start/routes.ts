@@ -34,13 +34,9 @@ Route.get('/user/signup', async ({ view }) => {
 
 Route.post('/user/signup', 'SignupController.post')
 
-Route.get('/user/login', async () => {
-  return 'Render form for user login'
-})
+Route.get('/user/login', 'LoginController.index')
 
-Route.post('/user/login', async () => {
-  return 'Post route for user login'
-})
+Route.post('/user/login', 'LoginController.post')
 
 Route.get('/tarantula/create', async () => {
   return 'Render form for creating new tarantula'
