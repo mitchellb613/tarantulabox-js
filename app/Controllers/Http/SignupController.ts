@@ -4,6 +4,10 @@ import User from 'App/Models/User'
 // import { HandleFormError } from 'helpers/HandleFormError'
 
 export default class SignupController {
+  public async index(ctx: HttpContextContract) {
+    return await ctx.view.render('signup')
+  }
+
   public async post(ctx: HttpContextContract) {
     const signupSchema = schema.create({
       email: schema.string([rules.email()]),

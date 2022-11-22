@@ -28,9 +28,7 @@ Route.get('/user/home', async () => {
   return 'Render view of user home with their tarantulas in a table'
 })
 
-Route.get('/user/signup', async ({ view }) => {
-  return await view.render('signup')
-})
+Route.get('/user/signup', 'SignupController.index')
 
 Route.post('/user/signup', 'SignupController.post')
 
