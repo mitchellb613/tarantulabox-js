@@ -27,7 +27,7 @@ export default class SignupController {
       return ctx.response.redirect('/user/login')
     } catch (error) {
       if (error.code == 23505) {
-        ctx.session.flash('email_in_use_error', 'Email already in use')
+        ctx.session.flash('email_in_use', 'Email already in use')
         return ctx.response.redirect('back', true)
       }
       return ctx.response.badRequest('Bad request')

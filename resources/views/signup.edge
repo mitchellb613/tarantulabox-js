@@ -6,8 +6,8 @@
         {{ csrfField() }}
         <div>
             <label>Email:</label>
-            @if(flashMessages.has('email_in_use_error'))
-                <label> {{ flashMessages.get('email_in_use_error', '') }} </label>
+            @if(flashMessages.has('email_in_use'))
+                <label> {{ flashMessages.get('email_in_use', '') }} </label>
             @end
             @if(flashMessages.has('errors.email'))
                 <label> {{ flashMessages.get('errors.email') }} </label>
