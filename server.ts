@@ -18,8 +18,8 @@ import * as fs from 'fs'
 
 sourceMapSupport.install({ handleUncaughtExceptions: false })
 
-const privateKey = fs.readFileSync('tls/server.key', 'utf8')
-const certificate = fs.readFileSync('tls/server.crt', 'utf8')
+const privateKey = fs.readFileSync('tls/key.pem', 'utf8')
+const certificate = fs.readFileSync('tls/cert.pem', 'utf8')
 
 new Ignitor(__dirname).httpServer().start((handle) => {
   return https.createServer({ key: privateKey, cert: certificate }, handle)
