@@ -28,8 +28,8 @@ Route.get('/user/home', async () => {
   return 'Render view of user home with their tarantulas in a table'
 })
 
-Route.get('/user/signup', async () => {
-  return 'Render form for user signup'
+Route.get('/user/signup', async ({ view }) => {
+  return await view.render('signup')
 })
 
 Route.post('/user/signup', async () => {

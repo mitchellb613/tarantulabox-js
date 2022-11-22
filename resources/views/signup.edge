@@ -1,0 +1,19 @@
+@layout('layouts/base')
+@set('title', 'Signup')
+
+@section('main')
+    <form action="/user/signup" method="POST">
+        {{ csrfField() }}
+        <div>
+            <label>Email:</label>
+            <input type="email" name="email" />
+        </div>
+        <div>
+            <label>Password:</label>
+            <input type="password" name="password" />
+        </div>
+        <div>
+            <input type="submit" value="Signup" />
+        </div>
+    </form>
+@end
