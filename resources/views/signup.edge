@@ -12,7 +12,7 @@
             @if(flashMessages.has('errors.email'))
                 <label> {{ flashMessages.get('errors.email') }} </label>
             @end
-            <input type="email" name="email" value={{flashMessages.get('email') || ''}} >
+            <input type="email" name="email" value="{{flashMessages.get('email') || ''}}" >
         </div>
         <div>
             <label>Password:</label>
