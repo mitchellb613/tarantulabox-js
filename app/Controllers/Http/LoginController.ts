@@ -25,6 +25,7 @@ export default class LoginController {
       ctx.session.flash('global_message', 'Successfully logged in')
       return ctx.response.redirect('/user/home')
     } catch (error) {
+      ctx.session.flashExcept(['_csrf', 'password', '_method'])
       ctx.session.flash('global_message', 'Invalid credentials')
       return ctx.response.redirect('back', true)
     }
