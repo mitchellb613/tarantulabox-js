@@ -24,7 +24,6 @@ export default class CreateTsController {
         schema: tarantulaSchema,
       })
     } catch (error) {
-      console.log(error)
       ctx.session.flashExcept(['_csrf', 'tarantula_image', '_method'])
       ctx.session.flash('errors', error.messages)
       return ctx.response.redirect('back', true)
