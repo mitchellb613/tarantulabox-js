@@ -1,0 +1,53 @@
+@layout('layouts/base')
+@set('title', 'Edit')
+
+@section('main')
+<h2>Update Tarantula</h2>
+<form action="{{"/tarantula/edit/" + tarantula.id}}" method="POST">
+    {{ csrfField() }}
+    <div>
+        <label>Name:</label>
+        @if(flashMessages.has('errors.name'))
+                <label> {{ flashMessages.get('errors.name') }} </label>
+        @end
+        <input type="text" name="name" value="{{ flashMessages.get('name') || tarantula.name}}">
+    </div>
+    <div>
+        <label>Species:</label>
+        @if(flashMessages.has('errors.species'))
+            <label> {{ flashMessages.get('errors.species') }} </label>
+        @end
+        <input type="text" name="species" value="{{ flashMessages.get('species') || tarantula.species }}">
+    </div>
+    <div class='flex-spaced'>
+        <div>
+            <label>Next Feed Date:</label>
+            @if(flashMessages.has('errors.next_feed_date'))
+                <label> {{ flashMessages.get('errors.next_feed_date') }} </label>
+            @end
+            <input type="date" name="next_feed_date" value="{{flashMessages.get('next_feed_date') || tarantula.next_reminder_time.toISODate()}}">
+        </div>
+        <div>
+            <label>Feeding Interval</label>
+            @if(flashMessages.has('errors.feed_interval_days'))
+                <label> {{ flashMessages.get('errors.feed_interval_days') }} </label>
+            @end
+            <input type="number" name="feed_interval_days" value="{{flashMessages.get('feed_interval_days') || tarantula.reminder_interval_days}}">
+            &nbspDays
+        </div>
+        <div>
+            <label>Notify:</label>
+            @if(flashMessages.has('errors.notify'))
+                <label> {{ flashMessages.get('errors.notify') }} </label>
+            @end
+            Yes
+            <input type="radio" name="notify" value="true" {{flashMessages.get('notify') || tarantula.notify ? 'checked' : ''}}>
+            No
+            <input type="radio" name="notify" value="false" {{!flashMessages.get('notify') && !tarantula.notify ? 'checked' : ''}}>
+        </div>
+    </div>
+    <div>
+        <input type="submit" value="Update Tarantula">
+    </div>
+</form>
+@end

@@ -89,12 +89,12 @@ tr:nth-child(2n) {
 }
 
 td form button {
-  text-decoration: none;
-  background-color: #b3003b;
-  color: white;
-  padding: 4px 8px;
-  border-radius: 12px;
-  font-size: 12px;
+  color: #b3003b;
+  display: inline-block;
+}
+
+td form a {
+  color: #b3003b;
 }
 
 .thumbnail {

@@ -22,10 +22,14 @@
                 <td>{{tarantula.species}}</td>
                 <td>{{tarantula.notify ? "True" : "False"}}</td>
                 <td>{{tarantula.reminder_interval_days}} days</td>
-                <td><form action={{"/tarantula/delete/" + tarantula.id}} method="POST">
-                    {{ csrfField() }}
-                    <button>X</button>
-                </form></td>
+                <td>
+                    <form action={{"/tarantula/delete/" + tarantula.id}} method="POST">
+                        {{ csrfField() }}
+                        <button>Delete</button>
+                        /
+                        <a href={{"/tarantula/edit/" + tarantula.id}}>Edit</a>
+                    </form>
+                </td>
             </tr>
         @end
     </table>
