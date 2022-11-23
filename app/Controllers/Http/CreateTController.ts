@@ -1,6 +1,6 @@
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import { schema, rules } from '@ioc:Adonis/Core/Validator'
-import Tarantula from 'App/Models/Tarantula'
+import User from 'App/Models/User'
 
 export default class CreateTsController {
   public async index(ctx: HttpContextContract) {
@@ -28,11 +28,10 @@ export default class CreateTsController {
       ctx.session.flash('errors', error.messages)
       return ctx.response.redirect('back', true)
     }
-    const user_id = ctx.auth.user?.id
+    const user = await User.findOrFail(ctx.auth.user?.id)
     await payload.tarantula_image.moveToDisk('/')
     try {
-      await Tarantula.create({
-        user_id: user_id,
+      await user.related('tarantulas').create({
         name: payload.name,
         species: payload.species,
         img_url: payload.tarantula_image.fileName,
