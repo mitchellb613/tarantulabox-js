@@ -14,7 +14,7 @@
         </tr>
         @each(tarantula in tarantulas)
             <tr>
-                <td><img src={{tarantula.img_url}} alt={{"Photo of " + tarantula.name}} /></td>
+                <td><img class="thumbnail" src={{tarantula.signed_url}} alt={{"Photo of " + tarantula.name}}/></td>
                 <td>{{tarantula.name}}</td>
                 <td>{{tarantula.species}}</td>
                 <td>{{tarantula.notify}}</td>
