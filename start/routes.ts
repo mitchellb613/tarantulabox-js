@@ -44,4 +44,6 @@ Route.group(() => {
   Route.get('/tarantula/create', 'CreateTController.index')
 
   Route.post('/tarantula/create', 'CreateTController.post')
+
+  Route.post('/tarantula/delete/:id', 'DeleteTController.post')
 }).middleware('auth:web')

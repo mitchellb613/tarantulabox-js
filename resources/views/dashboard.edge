@@ -13,6 +13,7 @@
             <th>Species</th>
             <th>Notify</th>
             <th>Interval</th>
+            <th>X</th>
         </tr>
         @each(tarantula in tarantulas)
             <tr>
@@ -21,6 +22,10 @@
                 <td>{{tarantula.species}}</td>
                 <td>{{tarantula.notify ? "True" : "False"}}</td>
                 <td>{{tarantula.reminder_interval_days}} days</td>
+                <td><form action={{"/tarantula/delete/" + tarantula.id}} method="POST">
+                    {{ csrfField() }}
+                    <button>X</button>
+                </form></td>
             </tr>
         @end
     </table>

@@ -88,6 +88,15 @@ tr:nth-child(2n) {
   background-color: #cccccc;
 }
 
+td form button {
+  text-decoration: none;
+  background-color: #b3003b;
+  color: white;
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-size: 12px;
+}
+
 .thumbnail {
   height: 75px;
   width: 75px;
