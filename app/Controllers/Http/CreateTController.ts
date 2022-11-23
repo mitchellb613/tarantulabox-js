@@ -8,7 +8,7 @@ export default class CreateTsController {
   }
 
   public async post(ctx: HttpContextContract) {
-    const signupSchema = schema.create({
+    const tarantulaSchema = schema.create({
       name: schema.string([rules.minLength(1)]),
       species: schema.string([rules.minLength(1)]),
       tarantula_image: schema.file({
@@ -21,7 +21,7 @@ export default class CreateTsController {
     })
     try {
       var payload = await ctx.request.validate({
-        schema: signupSchema,
+        schema: tarantulaSchema,
       })
     } catch (error) {
       console.log(error)
