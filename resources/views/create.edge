@@ -2,6 +2,7 @@
 @set('title', 'Create')
 
 @section('main')
+<h2>Add A New Tarantula</h2>
 <form action="/tarantula/create" method="POST" enctype="multipart/form-data">
     {{ csrfField() }}
     <div>
@@ -16,21 +17,23 @@
         <label>Image:</label>
         <input type="file" id="tarantulaImage" name="tarantula_image" accept="image/png, image/jpeg">
     </div>
-    <div>
-        <label>Next Feed Date:</label>
-        <input type="date" name="next_feed_date">
-    </div>
-    <div>
-        <label>Feeding Interval</label>
-        <input type="number" name="feed_interval_days">
-        &nbspDays
-    </div>
-    <div>
-        <label>Notify:</label>
-        Yes
-        <input type="radio" name="notify" value="true">
-        No
-        <input type="radio" name="notify" value="false">
+    <div class='flex-spaced'>
+        <div>
+            <label>Next Feed Date:</label>
+            <input type="date" name="next_feed_date">
+        </div>
+        <div>
+            <label>Feeding Interval</label>
+            <input type="number" name="feed_interval_days">
+            &nbspDays
+        </div>
+        <div>
+            <label>Notify:</label>
+            Yes
+            <input type="radio" name="notify" value="true">
+            No
+            <input type="radio" name="notify" value="false">
+        </div>
     </div>
     <div>
         <input type="submit" value="Add Tarantula">

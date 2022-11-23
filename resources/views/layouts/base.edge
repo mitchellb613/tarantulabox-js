@@ -10,8 +10,9 @@
       <body>
     <header>
         <h1><a href="/">Tarantulabox</a></h1>
+        @include('partials/nav')
     </header>
-    @include('partials/nav')
+    {{--  @include('partials/nav')  --}}
     <main>
       @if(flashMessages.has('global_message'))
           <div>{{ flashMessages.get('global_message') }}</div>

@@ -3,7 +3,9 @@
 
 @section('main')
 <div>
-    <a href="/tarantula/create">Add new tarantula</a>
+    <div class="text-align-right">
+        <a href="/tarantula/create">+ Add New Tarantula</a>
+    </div>
     <table>
         <tr>
             <th>Image</th>
@@ -17,8 +19,8 @@
                 <td><img class="thumbnail" src={{tarantula.signed_url}} alt={{"Photo of " + tarantula.name}}/></td>
                 <td>{{tarantula.name}}</td>
                 <td>{{tarantula.species}}</td>
-                <td>{{tarantula.notify}}</td>
-                <td>{{tarantula.reminder_interval_days}}</td>
+                <td>{{tarantula.notify ? "True" : "False"}}</td>
+                <td>{{tarantula.reminder_interval_days}} days</td>
             </tr>
         @end
     </table>
