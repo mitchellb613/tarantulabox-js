@@ -41,15 +41,7 @@ Route.group(() => {
 
   Route.get('/user/home', 'DashboardController.index')
 
-  Route.get('/tarantula/create', async () => {
-    return 'Render form for creating new tarantula'
-  })
+  Route.get('/tarantula/create', 'CreateTController.index')
 
-  Route.post('/tarantula/create', async () => {
-    return 'Post route for making new tarantula'
-  })
-
-  Route.get('/tarantula/view/:id', async () => {
-    return 'Render view of tarantula with id'
-  })
+  Route.post('/tarantula/create', 'CreateTController.post')
 }).middleware('auth:web')
