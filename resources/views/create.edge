@@ -19,14 +19,14 @@
         @end
         <input type="text" name="species" value="{{ flashMessages.get('species') || '' }}">
     </div>
-    <div>
-        <label>Image:</label>
-        @if(flashMessages.has('errors.tarantula_image'))
-                <label> {{ flashMessages.get('errors.tarantula_image') }} </label>
-        @end
-        <input type="file" id="tarantulaImage" name="tarantula_image" accept="image/png, image/jpeg">
-    </div>
-    <div class='flex-spaced'>
+    <div class="flex-spaced">
+        <div>
+            <label>Image:</label>
+            @if(flashMessages.has('errors.tarantula_image'))
+                    <label> {{ flashMessages.get('errors.tarantula_image') }} </label>
+            @end
+            <input type="file" id="tarantulaImage" name="tarantula_image" accept="image/png, image/jpeg">
+        </div>
         <div>
             <label>Next Feed Date:</label>
             @if(flashMessages.has('errors.next_feed_date'))
@@ -41,16 +41,6 @@
             @end
             <input type="number" name="feed_interval_days" value="{{ flashMessages.get('feed_interval_days') || '' }}">
             &nbspDays
-        </div>
-        <div>
-            <label>Notify:</label>
-            @if(flashMessages.has('errors.notify'))
-                <label> {{ flashMessages.get('errors.notify') }} </label>
-            @end
-            Yes
-            <input type="radio" name="notify" value="true">
-            No
-            <input type="radio" name="notify" value="false">
         </div>
     </div>
     <div>

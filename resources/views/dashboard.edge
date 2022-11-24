@@ -11,7 +11,7 @@
             <th>Image</th>
             <th>Name</th>
             <th>Species</th>
-            <th>Notify</th>
+            <th>Next Feed</th>
             <th>Interval</th>
             <th>X</th>
         </tr>
@@ -20,7 +20,7 @@
                 <td><img class="thumbnail" src={{tarantula.signed_url}} alt={{"Photo of " + tarantula.name}}/></td>
                 <td>{{tarantula.name}}</td>
                 <td>{{tarantula.species}}</td>
-                <td>{{tarantula.notify ? "True" : "False"}}</td>
+                <td>{{tarantula.next_feed_date.toISODate()}}</td>
                 <td>{{tarantula.feed_interval_days}} days</td>
                 <td>
                     <form action={{"/tarantula/delete/" + tarantula.id}} method="POST">

@@ -24,7 +24,6 @@ export default class EditTController {
       species: schema.string([rules.minLength(1)]),
       next_feed_date: schema.date({ format: 'yyyy-MM-dd' }, [rules.after('today')]),
       feed_interval_days: schema.number([rules.range(1, 365)]),
-      notify: schema.boolean(),
     })
     try {
       var tarantula = await Tarantula.findOrFail(ctx.params.id)
@@ -52,7 +51,6 @@ export default class EditTController {
       tarantula.species = payload.species
       tarantula.next_feed_date = payload.next_feed_date
       tarantula.feed_interval_days = payload.feed_interval_days
-      tarantula.notify = payload.notify
       await tarantula.save()
       ctx.session.flash('global_message', 'Tarantula updated')
       return ctx.response.redirect('/user/home')

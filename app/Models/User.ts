@@ -21,6 +21,9 @@ export default class User extends BaseModel {
   })
   public tarantulas: HasMany<typeof Tarantula>
 
+  @column()
+  public notify: boolean
+
   @column.dateTime({ autoCreate: true })
   public createdAt: DateTime
 

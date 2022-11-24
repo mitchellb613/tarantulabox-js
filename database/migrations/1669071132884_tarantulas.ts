@@ -11,7 +11,6 @@ export default class extends BaseSchema {
       table.string('name', 255).notNullable()
       table.string('species', 255).notNullable()
       table.string('img_url', 255).notNullable()
-      table.boolean('notify').notNullable().defaultTo(false)
       table.integer('feed_interval_days').unsigned().notNullable()
       table.timestamp('next_feed_date').notNullable()
 

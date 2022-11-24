@@ -12,6 +12,7 @@ export default class SignupController {
     const signupSchema = schema.create({
       email: schema.string([rules.email()]),
       password: schema.string([rules.minLength(8)]),
+      notify: schema.boolean(),
     })
     try {
       var payload = await ctx.request.validate({
@@ -26,6 +27,7 @@ export default class SignupController {
       await User.create({
         email: payload.email,
         password: payload.password,
+        notify: payload.notify,
       })
       ctx.session.flash('global_message', 'Sign up successful please login')
       return ctx.response.redirect('/user/login')

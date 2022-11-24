@@ -22,9 +22,6 @@ export default class Tarantula extends BaseModel {
   public img_url: string
 
   @column()
-  public notify: boolean
-
-  @column()
   public feed_interval_days: number
 
   @column.dateTime()

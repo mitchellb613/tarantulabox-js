@@ -17,7 +17,6 @@ export default class CreateTsController {
       }),
       next_feed_date: schema.date({ format: 'yyyy-MM-dd' }, [rules.after('today')]),
       feed_interval_days: schema.number([rules.range(1, 365)]),
-      notify: schema.boolean(),
     })
     try {
       var payload = await ctx.request.validate({
@@ -35,7 +34,6 @@ export default class CreateTsController {
         name: payload.name,
         species: payload.species,
         img_url: payload.tarantula_image.fileName,
-        notify: payload.notify,
         next_feed_date: payload.next_feed_date,
         feed_interval_days: payload.feed_interval_days,
       })

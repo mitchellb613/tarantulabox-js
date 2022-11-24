@@ -35,16 +35,6 @@
             <input type="number" name="feed_interval_days" value="{{flashMessages.get('feed_interval_days') || tarantula.feed_interval_days}}">
             &nbspDays
         </div>
-        <div>
-            <label>Notify:</label>
-            @if(flashMessages.has('errors.notify'))
-                <label> {{ flashMessages.get('errors.notify') }} </label>
-            @end
-            Yes
-            <input type="radio" name="notify" value="true" {{flashMessages.get('notify') || tarantula.notify ? 'checked' : ''}}>
-            No
-            <input type="radio" name="notify" value="false" {{!flashMessages.get('notify') && !tarantula.notify ? 'checked' : ''}}>
-        </div>
     </div>
     <div>
         <input type="submit" value="Update Tarantula">
