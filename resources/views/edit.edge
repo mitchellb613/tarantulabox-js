@@ -3,7 +3,7 @@
 
 @section('main')
 <h2>Update Tarantula</h2>
-<form action="{{"/tarantula/edit/" + tarantula.id}}" method="POST">
+<form action="{{"/user/tarantula/" + tarantula.id + "/update?_method=PUT" }}" method="POST">
     {{ csrfField() }}
     <div>
         <label>Name:</label>

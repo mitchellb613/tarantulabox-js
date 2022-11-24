@@ -41,13 +41,19 @@ Route.group(() => {
 
   Route.get('/user/home', 'DashboardController.index')
 
-  Route.get('/tarantula/create', 'CreateTController.index')
+  //RESTful CRUD routes; User's id is implied on all routes (getting from auth context)
+  //CREATE
+  Route.get('/user/tarantula/create', 'TarantulaController.index')
+  Route.post('/user/tarantula', 'TarantulaController.post')
 
-  Route.post('/tarantula/create', 'CreateTController.post')
+  //READ
+  Route.get('/user/tarantula', 'TarantulaController.all')
+  Route.get('/user/tarantula/:tarantulaId', 'TarantulaController.one')
 
-  Route.post('/tarantula/delete/:id', 'DeleteTController.post')
+  //UPDATE
+  Route.get('/user/tarantula/:tarantulaId/update', 'TarantulaController.indexUpdate')
+  Route.put('/user/tarantula/:tarantulaId/update', 'TarantulaController.update')
 
-  Route.get('/tarantula/edit/:id', 'EditTController.index')
-
-  Route.post('/tarantula/edit/:id', 'EditTController.post')
+  //DELETE
+  Route.delete('/user/tarantula/:tarantulaId/delete', 'TarantulaController.delete')
 }).middleware('auth:web')
