@@ -41,13 +41,17 @@ Route.group(() => {
 
   Route.get('/user/home', 'DashboardController.index')
 
-  Route.get('/tarantula/create', 'CreateTController.index')
+  //CREATE
+  Route.get('/user/tarantula/create', 'TarantulaController.index')
+  Route.post('/user/:userId/tarantula', 'TarantulaController.post')
 
-  Route.post('/tarantula/create', 'CreateTController.post')
+  //READ
+  Route.get('/user/:userId/tarantula', 'TarantulaController.all')
+  Route.get('/user/:userId/tarantula/:tarantulaId', 'TarantulaController.one')
 
-  Route.post('/tarantula/delete/:id', 'DeleteTController.post')
-
-  Route.get('/tarantula/edit/:id', 'EditTController.index')
-
-  Route.post('/tarantula/edit/:id', 'EditTController.post')
+  //UPDATE
+  Route.get('/user/tarantula/:tarantulaId/update', 'TarantulaController.indexUpdate')
+  Route.put('/user/:userId/tarantula/:tarantulaId/update', 'TarantulaController.update')
+  //DELETE
+  Route.delete('/user/:userId/tarantula/:tarantulaId/delete', 'TarantulaController.delete')
 }).middleware('auth:web')
