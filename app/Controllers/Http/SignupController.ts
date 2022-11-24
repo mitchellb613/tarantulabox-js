@@ -15,15 +15,9 @@ export default class SignupController {
       notify: schema.boolean(),
     })
     try {
-      var payload = await ctx.request.validate({
+      const payload = await ctx.request.validate({
         schema: signupSchema,
       })
-    } catch (error) {
-      ctx.session.flashExcept(['_csrf', 'password', '_method'])
-      ctx.session.flash('errors', error.messages)
-      return ctx.response.redirect('back', true)
-    }
-    try {
       await User.create({
         email: payload.email,
         password: payload.password,
@@ -32,11 +26,16 @@ export default class SignupController {
       ctx.session.flash('global_message', 'Sign up successful please login')
       return ctx.response.redirect('/user/login')
     } catch (error) {
-      if (error.code == 23505) {
+      if (error.code === 'E_VALIDATION_FAILURE') {
+        ctx.session.flashExcept(['_csrf', 'password', '_method'])
+        ctx.session.flash('errors', error.messages)
+        return ctx.response.redirect('back', true)
+      } else if (error.code === '23505') {
         ctx.session.flash('email_in_use', 'Email already in use')
         return ctx.response.redirect('back', true)
+      } else {
+        return ctx.response.internalServerError('500')
       }
-      return ctx.response.badRequest('Bad request')
     }
   }
 }

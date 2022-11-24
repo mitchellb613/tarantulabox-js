@@ -19,17 +19,11 @@ export default class CreateTsController {
       feed_interval_days: schema.number([rules.range(1, 365)]),
     })
     try {
-      var payload = await ctx.request.validate({
+      const payload = await ctx.request.validate({
         schema: tarantulaSchema,
       })
-    } catch (error) {
-      ctx.session.flashExcept(['_csrf', 'tarantula_image', '_method'])
-      ctx.session.flash('errors', error.messages)
-      return ctx.response.redirect('back', true)
-    }
-    const user = await User.findOrFail(ctx.auth.user?.id)
-    await payload.tarantula_image.moveToDisk('/')
-    try {
+      const user = await User.findOrFail(ctx.auth.user?.id)
+      await payload.tarantula_image.moveToDisk('/')
       await user.related('tarantulas').create({
         name: payload.name,
         species: payload.species,
@@ -40,7 +34,13 @@ export default class CreateTsController {
       ctx.session.flash('global_message', 'Tarantula added')
       return ctx.response.redirect('/user/home')
     } catch (error) {
-      return ctx.response.badRequest('Bad request')
+      if (error.code === 'E_VALIDATION_FAILURE') {
+        ctx.session.flashExcept(['_csrf', '_method'])
+        ctx.session.flash('errors', error.messages)
+        return ctx.response.redirect('back', true)
+      } else {
+        return ctx.response.internalServerError('500')
+      }
     }
   }
 }

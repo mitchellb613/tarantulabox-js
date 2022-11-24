@@ -23,27 +23,17 @@ export default class EditTController {
       feed_interval_days: schema.number([rules.range(1, 365)]),
     })
     try {
-      var tarantula = await Tarantula.findOrFail(ctx.params.id)
-      if (!ctx.auth.user) {
-        throw new Error('Unauthorized')
+      const tarantula = await Tarantula.find(ctx.params.id)
+      if (!tarantula) {
+        return ctx.response.badRequest('Bad Request')
       }
-      if (tarantula.user_id != ctx.auth.user.id) {
-        throw new Error('Unauthorized')
+      if (!ctx.auth.user || tarantula.user_id != ctx.auth.user.id) {
+        return ctx.response.unauthorized('Unauthorized')
       }
-    } catch (error) {
-      return ctx.response.badRequest('Bad request')
-    }
-    try {
-      var payload = await ctx.request.validate({
+      const payload = await ctx.request.validate({
         schema: tarantulaSchema,
       })
-    } catch (error) {
-      console.log(error)
-      ctx.session.flashExcept(['_csrf', '_method'])
-      ctx.session.flash('errors', error.messages)
-      return ctx.response.redirect('back', true)
-    }
-    try {
+
       tarantula.name = payload.name
       tarantula.species = payload.species
       tarantula.next_feed_date = payload.next_feed_date
@@ -52,7 +42,13 @@ export default class EditTController {
       ctx.session.flash('global_message', 'Tarantula updated')
       return ctx.response.redirect('/user/home')
     } catch (error) {
-      return ctx.response.internalServerError('500')
+      if (error.code === 'E_VALIDATION_FAILURE') {
+        ctx.session.flashExcept(['_csrf', '_method'])
+        ctx.session.flash('errors', error.messages)
+        return ctx.response.redirect('back', true)
+      } else {
+        return ctx.response.internalServerError('500')
+      }
     }
   }
 }
