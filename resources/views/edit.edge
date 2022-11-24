@@ -25,14 +25,14 @@
             @if(flashMessages.has('errors.next_feed_date'))
                 <label> {{ flashMessages.get('errors.next_feed_date') }} </label>
             @end
-            <input type="date" name="next_feed_date" value="{{flashMessages.get('next_feed_date') || tarantula.next_reminder_time.toISODate()}}">
+            <input type="date" name="next_feed_date" value="{{flashMessages.get('next_feed_date') || tarantula.next_feed_date.toISODate()}}">
         </div>
         <div>
             <label>Feeding Interval</label>
             @if(flashMessages.has('errors.feed_interval_days'))
                 <label> {{ flashMessages.get('errors.feed_interval_days') }} </label>
             @end
-            <input type="number" name="feed_interval_days" value="{{flashMessages.get('feed_interval_days') || tarantula.reminder_interval_days}}">
+            <input type="number" name="feed_interval_days" value="{{flashMessages.get('feed_interval_days') || tarantula.feed_interval_days}}">
             &nbspDays
         </div>
         <div>

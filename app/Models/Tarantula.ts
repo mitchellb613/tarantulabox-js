@@ -25,10 +25,10 @@ export default class Tarantula extends BaseModel {
   public notify: boolean
 
   @column()
-  public reminder_interval_days: number
+  public feed_interval_days: number
 
   @column.dateTime()
-  public next_reminder_time: DateTime
+  public next_feed_date: DateTime
 
   @column.dateTime({ autoCreate: true })
   public createdAt: DateTime

@@ -50,8 +50,8 @@ export default class EditTController {
     try {
       tarantula.name = payload.name
       tarantula.species = payload.species
-      tarantula.next_reminder_time = payload.next_feed_date
-      tarantula.reminder_interval_days = payload.feed_interval_days
+      tarantula.next_feed_date = payload.next_feed_date
+      tarantula.feed_interval_days = payload.feed_interval_days
       tarantula.notify = payload.notify
       await tarantula.save()
       ctx.session.flash('global_message', 'Tarantula updated')

@@ -12,8 +12,8 @@ export default class extends BaseSchema {
       table.string('species', 255).notNullable()
       table.string('img_url', 255).notNullable()
       table.boolean('notify').notNullable().defaultTo(false)
-      table.integer('reminder_interval_days').unsigned().notNullable()
-      table.timestamp('next_reminder_time').notNullable()
+      table.integer('feed_interval_days').unsigned().notNullable()
+      table.timestamp('next_feed_date').notNullable()
 
       table.timestamp('created_at', { useTz: true })
       table.timestamp('updated_at', { useTz: true })

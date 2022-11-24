@@ -36,8 +36,8 @@ export default class CreateTsController {
         species: payload.species,
         img_url: payload.tarantula_image.fileName,
         notify: payload.notify,
-        next_reminder_time: payload.next_feed_date,
-        reminder_interval_days: payload.feed_interval_days,
+        next_feed_date: payload.next_feed_date,
+        feed_interval_days: payload.feed_interval_days,
       })
       ctx.session.flash('global_message', 'Tarantula added')
       return ctx.response.redirect('/user/home')
