@@ -1,0 +1,33 @@
+<head>
+    <style>
+        table {
+            border: 1px solid black;
+            border-collapse: collapse;
+        }
+        tr {
+            border-bottom: 1px solid black;
+        }
+        td {
+            padding: 10px;
+        }
+    </style>
+</head>
+
+<div>
+    <table>
+        <tr>
+            <th>Name</th>
+            <th>Species</th>
+            <th>Next Feed</th>
+            <th>Interval</th>
+        </tr>
+        @each(tarantula in tarantulas)
+            <tr>
+                <td>{{tarantula.name}}</td>
+                <td>{{tarantula.species}}</td>
+                <td>{{tarantula.next_feed_date.toISODate()}}</td>
+                <td>{{tarantula.feed_interval_days}} days</td>
+            </tr>
+        @end
+    </table>
+</div>

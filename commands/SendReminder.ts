@@ -1,4 +1,5 @@
 import { BaseCommand } from '@adonisjs/core/build/standalone'
+import ReminderEmail from 'App/Mailers/ReminderEmail'
 import User from 'App/Models/User'
 import { DateTime } from 'luxon'
 
@@ -41,7 +42,7 @@ export default class SendReminder extends BaseCommand {
       if (tarantulas.length < 1) {
         continue
       }
-      console.log(`Send email to ${user.email}`)
+      await new ReminderEmail(user, tarantulas).send()
     }
   }
 }
