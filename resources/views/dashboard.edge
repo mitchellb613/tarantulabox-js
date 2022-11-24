@@ -23,11 +23,11 @@
                 <td>{{tarantula.next_feed_date.toISODate()}}</td>
                 <td>{{tarantula.feed_interval_days}} days</td>
                 <td>
-                    <form action={{"\/user/" + auth.user.id + "\/tarantula/" + tarantula.id + "/delete?_method=DELETE"}} method="POST">
+                    <form action="{{"/user/tarantula/" + tarantula.id + "/delete?_method=DELETE"}}" method="POST">
                         {{ csrfField() }}
                         <button>Delete</button>
                         /
-                        <a href={{"\/user/tarantula/" + tarantula.id + "/update" }}>Edit</a>
+                        <a href="{{"/user/tarantula/" + tarantula.id + "/update" }}">Edit</a>
                     </form>
                 </td>
             </tr>
