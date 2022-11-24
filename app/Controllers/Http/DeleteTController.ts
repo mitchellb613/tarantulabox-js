@@ -5,10 +5,7 @@ export default class DeleteTController {
   public async post(ctx: HttpContextContract) {
     try {
       var tarantula = await Tarantula.findOrFail(ctx.params.id)
-      if (!ctx.auth.user) {
-        throw new Error('Unauthorized')
-      }
-      if (tarantula.user_id != ctx.auth.user.id) {
+      if (!ctx.auth.user || tarantula.user_id != ctx.auth.user.id) {
         throw new Error('Unauthorized')
       }
     } catch (error) {
