@@ -31,16 +31,20 @@ export default class SendReminder extends BaseCommand {
   }
 
   public async run() {
-    // Get users to remind
     const users = await User.query().where('notify', true)
     for (const user of users) {
-      //get tarantulas
       const tarantulas = await user
         .related('tarantulas')
         .query()
         .where('next_feed_date', '<', DateTime.now().plus({ days: 1 }).startOf('day').toSQL())
       if (tarantulas.length < 1) {
         continue
+      }
+      for (const tarantula of tarantulas) {
+        tarantula.next_feed_date = tarantula.next_feed_date.plus({
+          days: tarantula.feed_interval_days,
+        })
+        await tarantula.save()
       }
       await new ReminderEmail(user, tarantulas).send()
     }
