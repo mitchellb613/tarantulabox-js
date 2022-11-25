@@ -1,5 +1,5 @@
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
-import { schema, rules } from '@ioc:Adonis/Core/Validator'
+import TarantulaValidator from 'App/Validators/TarantulaValidator'
 import Drive from '@ioc:Adonis/Core/Drive'
 import Tarantula from 'App/Models/Tarantula'
 import User from 'App/Models/User'
@@ -10,25 +10,15 @@ export default class TarantulaController {
   }
 
   public async create(ctx: HttpContextContract) {
-    const tarantulaSchema = schema.create({
-      name: schema.string([rules.minLength(1)]),
-      species: schema.string([rules.minLength(1)]),
-      tarantula_image: schema.file({
-        size: '2mb',
-        extnames: ['jpg', 'png'],
-      }),
-      next_feed_date: schema.date({ format: 'yyyy-MM-dd' }, [rules.after('today')]),
-      feed_interval_days: schema.number([rules.range(1, 365)]),
-    })
-    const payload = await ctx.request.validate({
-      schema: tarantulaSchema,
-    })
+    const payload = await ctx.request.validate(TarantulaValidator)
     const user = await User.findOrFail(ctx.auth.user?.id)
-    await payload.tarantula_image.moveToDisk('/')
+    if (payload.tarantula_image) {
+      await payload.tarantula_image.moveToDisk('/')
+    }
     await user.related('tarantulas').create({
       name: payload.name,
       species: payload.species,
-      img_url: payload.tarantula_image.fileName,
+      img_url: payload.tarantula_image?.fileName || null,
       next_feed_date: payload.next_feed_date,
       feed_interval_days: payload.feed_interval_days,
     })
@@ -46,10 +36,15 @@ export default class TarantulaController {
     }
     const tarantulas_signed = await Promise.all(
       tarantulas.map(async (t) => {
+        if (!t.img_url) {
+          return {
+            ...t.$attributes,
+          }
+        }
         const signed_url = await Drive.getSignedUrl(t.img_url)
         return {
           ...t.$attributes,
-          signed_url: signed_url,
+          img_url: signed_url,
         }
       })
     )
@@ -77,7 +72,9 @@ export default class TarantulaController {
         }
       })
     )
-    tarantula.img_url = await Drive.getSignedUrl(tarantula.img_url)
+    if (tarantula.img_url) {
+      tarantula.img_url = await Drive.getSignedUrl(tarantula.img_url)
+    }
     return await ctx.view.render('tarantula', { tarantula: tarantula, molts: molts })
   }
 
@@ -89,19 +86,18 @@ export default class TarantulaController {
     return await ctx.view.render('edit', { tarantula: tarantula })
   }
   public async update(ctx: HttpContextContract) {
-    const tarantulaSchema = schema.create({
-      name: schema.string([rules.minLength(1)]),
-      species: schema.string([rules.minLength(1)]),
-      next_feed_date: schema.date({ format: 'yyyy-MM-dd' }, [rules.after('today')]),
-      feed_interval_days: schema.number([rules.range(1, 365)]),
-    })
+    const payload = await ctx.request.validate(TarantulaValidator)
     const tarantula = await Tarantula.findOrFail(ctx.params.tarantulaId)
     if (tarantula.user_id != ctx.auth.user?.id) {
       return ctx.response.unauthorized('Unauthorized')
     }
-    const payload = await ctx.request.validate({
-      schema: tarantulaSchema,
-    })
+    if (tarantula.img_url && payload.tarantula_image) {
+      Drive.delete(tarantula.img_url)
+    }
+    if (payload.tarantula_image) {
+      await payload.tarantula_image.moveToDisk('/')
+      tarantula.img_url = payload.tarantula_image.fileName || tarantula.img_url
+    }
     tarantula.name = payload.name
     tarantula.species = payload.species
     tarantula.next_feed_date = payload.next_feed_date
@@ -111,11 +107,21 @@ export default class TarantulaController {
     return ctx.response.redirect('/user/tarantulas')
   }
   public async delete(ctx: HttpContextContract) {
-    const tarantula = await Tarantula.findOrFail(ctx.params.tarantulaId)
+    const tarantula = await Tarantula.query()
+      .where('id', ctx.params.tarantulaId)
+      .preload('molts')
+      .firstOrFail()
     if (tarantula.user_id != ctx.auth.user?.id) {
       return ctx.response.unauthorized('Unauthorized')
     }
-    await Drive.delete(tarantula.img_url)
+    if (tarantula.img_url) {
+      Drive.delete(tarantula.img_url)
+    }
+    for (const molt of tarantula.molts) {
+      if (molt.img_url) {
+        Drive.delete(molt.img_url)
+      }
+    }
     await tarantula.delete()
     ctx.session.flash('global_message', 'Tarantula deleted')
     return ctx.response.redirect('/user/tarantulas')

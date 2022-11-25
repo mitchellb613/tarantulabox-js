@@ -1,8 +1,8 @@
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
-import { schema, rules } from '@ioc:Adonis/Core/Validator'
 import Drive from '@ioc:Adonis/Core/Drive'
 import Molt from 'App/Models/Molt'
 import Tarantula from 'App/Models/Tarantula'
+import MoltValidator from 'App/Validators/MoltValidator'
 
 export default class MoltsController {
   public async createForm(ctx: HttpContextContract) {
@@ -14,17 +14,7 @@ export default class MoltsController {
   }
 
   public async create(ctx: HttpContextContract) {
-    const moltSchema = schema.create({
-      date: schema.date({ format: 'yyyy-MM-dd' }),
-      note: schema.string.nullable([rules.minLength(1)]),
-      moltImg: schema.file.optional({
-        size: '2mb',
-        extnames: ['jpg', 'png'],
-      }),
-    })
-    const payload = await ctx.request.validate({
-      schema: moltSchema,
-    })
+    const payload = await ctx.request.validate(MoltValidator)
     if (payload.moltImg) {
       await payload.moltImg.moveToDisk('/')
     }
@@ -41,13 +31,41 @@ export default class MoltsController {
     ctx.response.redirect('/user/tarantulas/' + tarantula.id)
   }
 
-  public async updateForm(ctx: HttpContextContract) {}
+  public async updateForm(ctx: HttpContextContract) {
+    const molt = await this.getMolt(ctx)
+    return await ctx.view.render('updateMolt', { molt: molt })
+  }
 
-  public async update(ctx: HttpContextContract) {}
+  public async update(ctx: HttpContextContract) {
+    const molt = await this.getMolt(ctx)
+    const payload = await ctx.request.validate(MoltValidator)
+    if (molt.img_url && payload.moltImg) {
+      Drive.delete(molt.img_url)
+    }
+    if (payload.moltImg) {
+      await payload.moltImg.moveToDisk('/')
+      molt.img_url = payload.moltImg.fileName || molt.img_url
+    }
+    molt.note = payload.note
+    molt.date = payload.date
+    await molt.save()
+    ctx.session.flash('global_message', 'Molt updated')
+    return ctx.response.redirect('/user/tarantulas/' + ctx.params.tarantulaId)
+  }
 
   public async delete(ctx: HttpContextContract) {
+    const molt = await this.getMolt(ctx)
+    if (molt.img_url) {
+      Drive.delete(molt.img_url)
+    }
+    await molt.delete()
+    ctx.session.flash('global_message', 'Molt deleted')
+    return ctx.response.redirect('/user/tarantulas/' + ctx.params.tarantulaId)
+  }
+
+  private async getMolt(ctx: HttpContextContract) {
     if (!ctx.auth.user) {
-      return ctx.response.unauthorized('Unauthorized')
+      throw new Error('Unauthorized')
     }
     const molt = await Molt.query()
       .from('tarantulas')
@@ -57,11 +75,6 @@ export default class MoltsController {
       .where('molts.id', ctx.params.moltId)
       .select('molts.*')
       .firstOrFail()
-    if (molt.img_url) {
-      await Drive.delete(molt.img_url)
-    }
-    await molt.delete()
-    ctx.session.flash('global_message', 'Molt deleted')
-    ctx.response.redirect('/user/tarantulas/' + ctx.params.tarantulaId)
+    return molt
   }
 }

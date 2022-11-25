@@ -20,7 +20,7 @@ export default class Tarantula extends BaseModel {
   public species: string
 
   @column()
-  public img_url: string
+  public img_url: string | null
 
   @column()
   public feed_interval_days: number

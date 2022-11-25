@@ -3,7 +3,7 @@
 
 @section('main')
 <h2>Update Tarantula</h2>
-<form action="{{"/user/tarantulas/" + tarantula.id + "/update?_method=PUT" }}" method="POST">
+<form action="{{"/user/tarantulas/" + tarantula.id + "/update?_method=PUT"  }}" method="POST" enctype="multipart/form-data">
     {{ csrfField() }}
     <div>
         <label>Name:</label>
@@ -21,6 +21,11 @@
     </div>
     <div class='flex-spaced'>
         <div>
+            <label>Image:</label>
+            @if(flashMessages.has('errors.tarantula_image'))
+                <label> {{ flashMessages.get('errors.tarantula_image') }} </label>
+            @end
+            <input type="file" id="tarantulaImage" name="tarantula_image" accept="image/png, image/jpeg">
             <label>Next Feed Date:</label>
             @if(flashMessages.has('errors.next_feed_date'))
                 <label> {{ flashMessages.get('errors.next_feed_date') }} </label>

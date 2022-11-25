@@ -5,7 +5,11 @@
 <div class="flex-spaced">
     <div>
         <h1>{{tarantula.name}}</h1>
-        <img class="tarantula-img" src="{{tarantula.img_url}}" alt="Photo of {{tarantula.name}}">
+        @if(tarantula.img_url)
+                    <img class="tarantula-img" src="{{tarantula.img_url}}" alt="-">
+                    @else
+                    -
+                    @end
         <h2>{{tarantula.species}}</h2>
     </div>
     <div class="grow text-align-right">
