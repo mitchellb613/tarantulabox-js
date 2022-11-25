@@ -12,11 +12,14 @@ export default class Molt extends BaseModel {
   @column()
   public tarantula_id: number
 
-  @column.dateTime()
-  public date: DateTime
+  @column()
+  public img_url: string | null
 
   @column()
-  public note: string
+  public note: string | null
+
+  @column.dateTime()
+  public date: DateTime
 
   @column.dateTime({ autoCreate: true })
   public createdAt: DateTime

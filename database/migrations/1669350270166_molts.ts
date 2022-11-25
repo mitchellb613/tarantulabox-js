@@ -8,8 +8,9 @@ export default class extends BaseSchema {
       table.increments('id')
       table.integer('tarantula_id').unsigned().references('tarantulas.id').onDelete('CASCADE')
 
+      table.string('img_url', 255)
       table.timestamp('date').notNullable()
-      table.string('note', 255).notNullable().defaultTo('')
+      table.string('note', 255)
 
       table.timestamp('created_at', { useTz: true })
       table.timestamp('updated_at', { useTz: true })

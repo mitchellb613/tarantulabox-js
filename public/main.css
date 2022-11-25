@@ -95,10 +95,12 @@ tr:nth-child(2n) {
 td form button {
   color: #b3003b;
   display: inline-block;
+  font-weight: normal;
 }
 
 td form a {
   color: #b3003b;
+  font-weight: normal;
 }
 
 td a {
@@ -166,7 +168,7 @@ footer {
 .grow {
   padding-left: 20px;
   padding-right: 20px;
-  padding-top: 12px;
+  padding-top: 10px;
   flex-grow: 1;
 }
 
@@ -177,4 +179,5 @@ footer {
 .tarantula-img {
   height: 250px;
   width: 250px;
+  border: 1px solid black;
 }
