@@ -57,13 +57,28 @@ export default class TarantulaController {
   }
 
   public async readOne(ctx: HttpContextContract) {
-    const tarantula = await Tarantula.findOrFail(ctx.params.tarantulaId)
-    if (tarantula.user_id != ctx.auth.user?.id) {
-      return ctx.response.unauthorized('Unauthorized')
+    if (!ctx.auth.user) {
+      return ctx.response.internalServerError('500')
     }
-    await tarantula.load('molts')
+    const tarantula = await Tarantula.query()
+      .where('id', ctx.params.tarantulaId)
+      .andWhere('user_id', ctx.auth.user.id)
+      .preload('molts')
+      .firstOrFail()
+    const molts = await Promise.all(
+      tarantula.molts.map(async (molt) => {
+        if (!molt.img_url) {
+          return molt.$attributes
+        }
+        const signed_url = await Drive.getSignedUrl(molt.img_url)
+        return {
+          ...molt.$attributes,
+          img_url: signed_url,
+        }
+      })
+    )
     tarantula.img_url = await Drive.getSignedUrl(tarantula.img_url)
-    return await ctx.view.render('tarantula', { tarantula: tarantula })
+    return await ctx.view.render('tarantula', { tarantula: tarantula, molts: molts })
   }
 
   public async updateForm(ctx: HttpContextContract) {
