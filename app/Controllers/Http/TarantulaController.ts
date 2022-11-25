@@ -67,7 +67,9 @@ export default class TarantulaController {
     if (!tarantulas || tarantulas.length !== 1) {
       return ctx.response.notFound('Not found')
     }
-    return await ctx.view.render('tarantula', tarantulas[0])
+    const tarantula = tarantulas[0]
+    tarantula.img_url = await Drive.getSignedUrl(tarantula.img_url)
+    return await ctx.view.render('tarantula', { tarantula: tarantulas[0] })
   }
 
   public async updateForm(ctx: HttpContextContract) {
