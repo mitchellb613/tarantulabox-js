@@ -61,6 +61,7 @@ export default class TarantulaController {
     if (tarantula.user_id != ctx.auth.user?.id) {
       return ctx.response.unauthorized('Unauthorized')
     }
+    await tarantula.load('molts')
     tarantula.img_url = await Drive.getSignedUrl(tarantula.img_url)
     return await ctx.view.render('tarantula', { tarantula: tarantula })
   }
