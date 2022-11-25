@@ -39,7 +39,7 @@ Route.group(() => {
     response.redirect('/')
   })
 
-  //RESTful CRUD routes; User's id is implied on all routes (getting from auth context)
+  //Tarantula routes
   //CREATE
   Route.get('/user/tarantulas/create', 'TarantulaController.createForm')
   Route.post('/user/tarantulas', 'TarantulaController.create')
@@ -54,4 +54,16 @@ Route.group(() => {
 
   //DELETE
   Route.delete('/user/tarantulas/:tarantulaId/delete', 'TarantulaController.delete')
+
+  //Molt routes
+  //CREATE
+  Route.get('/user/tarantulas/:tarantulaId/molts/create', 'MoltsController.createForm')
+  Route.post('/user/tarantulas/:tarantulaId/molts', 'MoltsController.create')
+
+  //UPDATE
+  Route.get('/user/tarantulas/:tarantulaId/molts/:moltId/update', 'MoltsController.updateForm')
+  Route.put('/user/tarantulas/:tarantulaId/molts/:moltId/update', 'MoltsController.update')
+
+  //DELETE
+  Route.delete('/user/tarantulas/:tarantulaId/molts/:moltId/delete', 'MoltsController.delete')
 }).middleware('auth:web')
