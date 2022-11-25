@@ -16,6 +16,6 @@ export default class LoginController {
     })
     await ctx.auth.use('web').attempt(payload.email, payload.password)
     ctx.session.flash('global_message', 'Successfully logged in')
-    return ctx.response.redirect('/user/home')
+    return ctx.response.redirect('/user/tarantulas')
   }
 }

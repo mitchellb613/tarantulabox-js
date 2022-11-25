@@ -1,7 +1,7 @@
 <nav>
     <a href="/">Home</a>
     @if(auth.isLoggedIn)
-    <a href="/user/home">Dashboard</a>
+    <a href="/user/tarantulas">Manage Collection</a>
     <form action="/user/logout" method="POST">
         {{ csrfField() }}
         <button>Logout</button>

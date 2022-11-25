@@ -4,7 +4,7 @@
 @section('main')
 <div>
     <div class="text-align-right">
-        <a href="/user/tarantula/create">+ Add New Tarantula</a>
+        <a href="/user/tarantulas/create">+ Add New Tarantula</a>
     </div>
     <table>
         <tr>
@@ -23,11 +23,11 @@
                 <td>{{tarantula.next_feed_date.toISODate()}}</td>
                 <td>{{tarantula.feed_interval_days}} days</td>
                 <td>
-                    <form action="{{"/user/tarantula/" + tarantula.id + "/delete?_method=DELETE"}}" method="POST">
+                    <form action="{{"/user/tarantulas/" + tarantula.id + "/delete?_method=DELETE"}}" method="POST">
                         {{ csrfField() }}
                         <button>Delete</button>
                         /
-                        <a href="{{"/user/tarantula/" + tarantula.id + "/update" }}">Edit</a>
+                        <a href="{{"/user/tarantulas/" + tarantula.id + "/update" }}">Edit</a>
                     </form>
                 </td>
             </tr>

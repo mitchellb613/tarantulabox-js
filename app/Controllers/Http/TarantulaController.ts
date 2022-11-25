@@ -1,14 +1,15 @@
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import { schema, rules } from '@ioc:Adonis/Core/Validator'
+import Drive from '@ioc:Adonis/Core/Drive'
 import Tarantula from 'App/Models/Tarantula'
 import User from 'App/Models/User'
 
 export default class TarantulaController {
-  public async index(ctx: HttpContextContract) {
+  public async createForm(ctx: HttpContextContract) {
     return await ctx.view.render('create')
   }
 
-  public async post(ctx: HttpContextContract) {
+  public async create(ctx: HttpContextContract) {
     const tarantulaSchema = schema.create({
       name: schema.string([rules.minLength(1)]),
       species: schema.string([rules.minLength(1)]),
@@ -32,10 +33,28 @@ export default class TarantulaController {
       feed_interval_days: payload.feed_interval_days,
     })
     ctx.session.flash('global_message', 'Tarantula added')
-    return ctx.response.redirect('/user/home')
+    return ctx.response.redirect('/user/tarantulas')
   }
 
-  public async indexUpdate(ctx: HttpContextContract) {
+  public async readAll(ctx: HttpContextContract) {
+    const user = await User.find(ctx.auth.user?.id)
+    const tarantulas = await user?.related('tarantulas').query()
+    if (!tarantulas) {
+      return ctx.response.internalServerError('500')
+    }
+    const tarantulas_signed = await Promise.all(
+      tarantulas.map(async (t) => {
+        const signed_url = await Drive.getSignedUrl(t.img_url)
+        return {
+          ...t.$attributes,
+          signed_url: signed_url,
+        }
+      })
+    )
+    return await ctx.view.render('dashboard', { tarantulas: tarantulas_signed })
+  }
+
+  public async updateForm(ctx: HttpContextContract) {
     const tarantula = await Tarantula.findOrFail(ctx.params.tarantulaId)
     if (tarantula.user_id != ctx.auth.user?.id) {
       return ctx.response.unauthorized('Unauthorized')
@@ -62,7 +81,7 @@ export default class TarantulaController {
     tarantula.feed_interval_days = payload.feed_interval_days
     await tarantula.save()
     ctx.session.flash('global_message', 'Tarantula updated')
-    return ctx.response.redirect('/user/home')
+    return ctx.response.redirect('/user/tarantulas')
   }
   public async delete(ctx: HttpContextContract) {
     const tarantula = await Tarantula.findOrFail(ctx.params.tarantulaId)
@@ -71,6 +90,6 @@ export default class TarantulaController {
     }
     await tarantula.delete()
     ctx.session.flash('global_message', 'Tarantula deleted')
-    return ctx.response.redirect('/user/home')
+    return ctx.response.redirect('/user/tarantulas')
   }
 }
