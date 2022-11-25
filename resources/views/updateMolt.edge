@@ -1,0 +1,34 @@
+@layout('layouts/base')
+@set('title', 'Update Log')
+
+@section('main')
+<div>
+    <form action={{"/user/tarantulas/" + molt.tarantula_id + "/molts/" + molt.id + "/update?_method=PUT"}} method="POST" enctype="multipart/form-data">
+        {{ csrfField() }}
+        <div>
+            <label for="note">Note:</label>
+            @if(flashMessages.has('errors.note'))
+                <label> {{ flashMessages.get('errors.note') }} </label>
+            @end
+            <input type="text" name="note" id="note" value="{{flashMessages.get('note') || molt.note || ''}}">
+        </div>
+        <div>
+            @if(flashMessages.has('errors.date'))
+                <label> {{ flashMessages.get('errors.date') }} </label>
+            @end
+            <label for="date">Date:</label>
+            <input type="date" name="date" id="date" value="{{molt.date.toISODate() || new Date().toISOString().substring(0, 10)}}">
+        </div>
+        <div>
+            @if(flashMessages.has('errors.moltImg'))
+                <label> {{ flashMessages.get('errors.moltImg') }} </label>
+            @end
+            <label for="moltImg">Image:</label>
+            <input type="file" name="moltImg" id="moltImg" value={{flashMessages.get('moltImg') || ''}}>
+        </div>
+        <div>
+            <input type="submit" value="Add Log" />
+        </div>
+    </form>
+</div>
+@end

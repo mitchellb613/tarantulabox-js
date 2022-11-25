@@ -1,6 +1,7 @@
 import { DateTime } from 'luxon'
-import { BaseModel, belongsTo, BelongsTo, column } from '@ioc:Adonis/Lucid/Orm'
+import { BaseModel, belongsTo, BelongsTo, column, hasMany, HasMany } from '@ioc:Adonis/Lucid/Orm'
 import User from './User'
+import Molt from './Molt'
 
 export default class Tarantula extends BaseModel {
   @belongsTo(() => User)
@@ -19,13 +20,18 @@ export default class Tarantula extends BaseModel {
   public species: string
 
   @column()
-  public img_url: string
+  public img_url: string | null
 
   @column()
   public feed_interval_days: number
 
   @column.dateTime()
   public next_feed_date: DateTime
+
+  @hasMany(() => Molt, {
+    foreignKey: 'tarantula_id',
+  })
+  public molts: HasMany<typeof Molt>
 
   @column.dateTime({ autoCreate: true })
   public createdAt: DateTime

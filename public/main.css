@@ -25,6 +25,10 @@ main {
   overflow-y: auto;
 }
 
+h1 {
+  font-size: 24px;
+}
+
 h1 a {
   font-size: 36px;
   font-weight: bold;
@@ -33,7 +37,7 @@ h1 a {
   color: black;
 }
 
-h2 {
+h2 a {
   font-size: 24px;
   font-weight: bold;
   color: black;
@@ -91,15 +95,16 @@ tr:nth-child(2n) {
 td form button {
   color: #b3003b;
   display: inline-block;
+  font-weight: normal;
 }
 
 td form a {
   color: #b3003b;
+  font-weight: normal;
 }
 
-.thumbnail {
-  height: 75px;
-  width: 75px;
+td a {
+  color: #b3003b
 }
 
 form label {
@@ -146,6 +151,11 @@ footer {
   margin-top: auto;
 }
 
+.thumbnail {
+  height: 75px;
+  width: 75px;
+}
+
 .text-align-right {
   text-align: right;
 }
@@ -155,6 +165,19 @@ footer {
   justify-content: space-between;
 }
 
+.grow {
+  padding-left: 20px;
+  padding-right: 20px;
+  padding-top: 10px;
+  flex-grow: 1;
+}
+
 .center {
   margin: auto;
+}
+
+.tarantula-img {
+  height: 250px;
+  width: 250px;
+  border: 1px solid black;
 }

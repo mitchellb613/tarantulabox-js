@@ -1,0 +1,48 @@
+@layout('layouts/base')
+@set('title', 'Dashboard')
+
+@section('main')
+<div class="flex-spaced">
+    <div>
+        <h1>{{tarantula.name}}</h1>
+        @if(tarantula.img_url)
+                    <img class="tarantula-img" src="{{tarantula.img_url}}" alt="-">
+                    @else
+                    -
+                    @end
+        <h2>{{tarantula.species}}</h2>
+    </div>
+    <div class="grow text-align-right">
+        <a href="{{"/user/tarantulas/" + tarantula.id + "/molts/create"}}">+ Log a Molt</a>
+        <table>
+            <tr>
+                <th>Image</th>
+                <th>Date</th>
+                <th>Note</th>
+                <th>X</th>
+            </tr>
+            @each(molt in molts)
+            <tr>
+                <td>
+                    @if(molt.img_url)
+                    <img class="thumbnail" src="{{molt.img_url}}" alt="-">
+                    @else
+                    -
+                    @end
+                </td>
+                <td>{{molt.date.toISODate()}}</td>
+                <td>{{molt.note || '-'}}</td>
+                <td>
+                    <form action="{{"/user/tarantulas/" + tarantula.id + "\/molts/" + molt.id + "/delete?_method=DELETE"}}" method="POST">
+                        {{ csrfField() }}
+                        <button>Delete</button>
+                        /
+                        <a href="{{"/user/tarantulas/" + tarantula.id + "\/molts/" + molt.id + "/update" }}">Edit</a>
+                    </form>
+                </td>
+            </tr>
+            @end
+        </table>
+    </div>
+</div>
+@end
