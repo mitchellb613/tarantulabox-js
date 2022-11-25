@@ -37,8 +37,10 @@ export default class TarantulaController {
   }
 
   public async readAll(ctx: HttpContextContract) {
-    const user = await User.find(ctx.auth.user?.id)
-    const tarantulas = await user?.related('tarantulas').query()
+    if (!ctx.auth.user) {
+      return ctx.response.internalServerError('500')
+    }
+    const tarantulas = await Tarantula.query().where('user_id', ctx.auth.user.id)
     if (!tarantulas) {
       return ctx.response.internalServerError('500')
     }
@@ -52,6 +54,20 @@ export default class TarantulaController {
       })
     )
     return await ctx.view.render('dashboard', { tarantulas: tarantulas_signed })
+  }
+
+  public async readOne(ctx: HttpContextContract) {
+    if (!ctx.auth.user) {
+      return ctx.response.internalServerError('500')
+    }
+    const tarantulas = await Tarantula.query()
+      .where('user_id', ctx.auth.user.id)
+      .andWhere('id', ctx.params.tarantulaId)
+      .preload('molts')
+    if (!tarantulas || tarantulas.length !== 1) {
+      return ctx.response.notFound('Not found')
+    }
+    return await ctx.view.render('tarantula', tarantulas[0])
   }
 
   public async updateForm(ctx: HttpContextContract) {

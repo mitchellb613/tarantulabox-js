@@ -18,7 +18,7 @@
         @each(tarantula in tarantulas)
             <tr>
                 <td><img class="thumbnail" src={{tarantula.signed_url}} alt={{"Photo of " + tarantula.name}}/></td>
-                <td>{{tarantula.name}}</td>
+                <td><a href="{{"/user/tarantulas/" + tarantula.id}}">{{tarantula.name}}</a></td>
                 <td>{{tarantula.species}}</td>
                 <td>{{tarantula.next_feed_date.toISODate()}}</td>
                 <td>{{tarantula.feed_interval_days}} days</td>
