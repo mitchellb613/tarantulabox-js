@@ -88,6 +88,7 @@ export default class TarantulaController {
     if (tarantula.user_id != ctx.auth.user?.id) {
       return ctx.response.unauthorized('Unauthorized')
     }
+    await Drive.delete(tarantula.img_url)
     await tarantula.delete()
     ctx.session.flash('global_message', 'Tarantula deleted')
     return ctx.response.redirect('/user/tarantulas')
