@@ -1,5 +1,7 @@
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import { schema, rules } from '@ioc:Adonis/Core/Validator'
+import Drive from '@ioc:Adonis/Core/Drive'
+import Molt from 'App/Models/Molt'
 import Tarantula from 'App/Models/Tarantula'
 
 export default class MoltsController {
@@ -35,6 +37,7 @@ export default class MoltsController {
       date: payload.date,
       img_url: payload.moltImg?.fileName,
     })
+    ctx.session.flash('global_message', 'Molt added')
     ctx.response.redirect('/user/tarantulas/' + tarantula.id)
   }
 
@@ -42,5 +45,23 @@ export default class MoltsController {
 
   public async update(ctx: HttpContextContract) {}
 
-  public async delete(ctx: HttpContextContract) {}
+  public async delete(ctx: HttpContextContract) {
+    if (!ctx.auth.user) {
+      return ctx.response.unauthorized('Unauthorized')
+    }
+    const molt = await Molt.query()
+      .from('tarantulas')
+      .join('molts', 'tarantulas.id', '=', 'molts.tarantula_id')
+      .where('tarantulas.user_id', ctx.auth.user.id)
+      .where('tarantulas.id', ctx.params.tarantulaId)
+      .where('molts.id', ctx.params.moltId)
+      .select('molts.*')
+      .firstOrFail()
+    if (molt.img_url) {
+      await Drive.delete(molt.img_url)
+    }
+    await molt.delete()
+    ctx.session.flash('global_message', 'Molt deleted')
+    ctx.response.redirect('/user/tarantulas/' + ctx.params.tarantulaId)
+  }
 }
