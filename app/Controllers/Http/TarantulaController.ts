@@ -25,26 +25,15 @@ export default class TarantulaController {
     })
     const user = await User.findOrFail(ctx.auth.user?.id)
     await payload.tarantula_image.moveToDisk('/')
-    const tarantula = await user.related('tarantulas').create({
+    await user.related('tarantulas').create({
       name: payload.name,
       species: payload.species,
       img_url: payload.tarantula_image.fileName,
       next_feed_date: payload.next_feed_date,
       feed_interval_days: payload.feed_interval_days,
     })
-    switch (ctx.request.accepts(['json', 'html'])) {
-      case 'json':
-        return ctx.response.json({ created_tarantula: tarantula })
-        break
-
-      case 'html':
-        ctx.session.flash('global_message', 'Tarantula added')
-        return ctx.response.redirect('/user/tarantulas')
-        break
-
-      default:
-        return ctx.response.badRequest('Bad request')
-    }
+    ctx.session.flash('global_message', 'Tarantula added')
+    return ctx.response.redirect('/user/tarantulas')
   }
 
   public async readAll(ctx: HttpContextContract) {
@@ -62,18 +51,7 @@ export default class TarantulaController {
         }
       })
     )
-    switch (ctx.request.accepts(['json', 'html'])) {
-      case 'json':
-        return ctx.response.json({ tarantulas: tarantulas_signed })
-        break
-
-      case 'html':
-        return await ctx.view.render('dashboard', { tarantulas: tarantulas_signed })
-        break
-
-      default:
-        return ctx.response.badRequest('Bad request')
-    }
+    return await ctx.view.render('dashboard', { tarantulas: tarantulas_signed })
   }
 
   public async updateForm(ctx: HttpContextContract) {
@@ -102,19 +80,8 @@ export default class TarantulaController {
     tarantula.next_feed_date = payload.next_feed_date
     tarantula.feed_interval_days = payload.feed_interval_days
     await tarantula.save()
-    switch (ctx.request.accepts(['json', 'html'])) {
-      case 'json':
-        return ctx.response.json({ updated_tarantula: tarantula })
-        break
-
-      case 'html':
-        ctx.session.flash('global_message', 'Tarantula updated')
-        return ctx.response.redirect('/user/tarantulas')
-        break
-
-      default:
-        return ctx.response.badRequest('Bad request')
-    }
+    ctx.session.flash('global_message', 'Tarantula updated')
+    return ctx.response.redirect('/user/tarantulas')
   }
   public async delete(ctx: HttpContextContract) {
     const tarantula = await Tarantula.findOrFail(ctx.params.tarantulaId)
@@ -122,18 +89,7 @@ export default class TarantulaController {
       return ctx.response.unauthorized('Unauthorized')
     }
     await tarantula.delete()
-    switch (ctx.request.accepts(['json', 'html'])) {
-      case 'json':
-        return ctx.response.json({ deleted_tarantula: tarantula })
-        break
-
-      case 'html':
-        ctx.session.flash('global_message', 'Tarantula deleted')
-        return ctx.response.redirect('/user/tarantulas')
-        break
-
-      default:
-        return ctx.response.badRequest('Bad request')
-    }
+    ctx.session.flash('global_message', 'Tarantula deleted')
+    return ctx.response.redirect('/user/tarantulas')
   }
 }
