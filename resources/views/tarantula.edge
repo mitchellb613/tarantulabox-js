@@ -3,7 +3,7 @@
 
 @section('main')
 <div class="flex-spaced">
-    <div>
+    <div class="tarantula-container">
         <h1>{{tarantula.name}}</h1>
         @if(tarantula.img_url)
                     <img class="tarantula-img" src="{{tarantula.img_url}}" alt="-">
@@ -15,12 +15,14 @@
     <div class="grow text-align-right">
         <a href="{{"/user/tarantulas/" + tarantula.id + "/molts/create"}}">+ Log a Molt</a>
         <table>
-            <tr>
-                <th>Image</th>
-                <th>Date</th>
-                <th>Note</th>
-                <th>X</th>
-            </tr>
+            <thead>
+                <tr>
+                    <th>Image</th>
+                    <th>Date</th>
+                    <th>Note</th>
+                    <th>X</th>
+                </tr>
+            </thead>
             @each(molt in molts)
             <tr>
                 <td>
@@ -30,8 +32,8 @@
                     -
                     @end
                 </td>
-                <td>{{molt.date.toISODate()}}</td>
-                <td>{{molt.note ?? '-'}}</td>
+                <td data-th="Date: ">{{molt.date.toISODate()}}</td>
+                <td data-th="Note: ">{{molt.note ?? '-'}}</td>
                 <td>
                     <form action="{{"/user/tarantulas/" + tarantula.id + "\/molts/" + molt.id + "/delete?_method=DELETE"}}" method="POST">
                         {{ csrfField() }}

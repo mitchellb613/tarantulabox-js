@@ -182,6 +182,10 @@ footer {
   border: 1px solid black;
 }
 
+.tarantula-container {
+  text-align: center;
+}
+
 @media only screen and (max-width: 40em) {
   thead {
       display: none;
@@ -197,6 +201,10 @@ footer {
   }
 
   header{
+    flex-direction: column;
+  }
+
+  .flex-spaced {
     flex-direction: column;
   }
 }
