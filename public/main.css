@@ -195,4 +195,8 @@ footer {
       content: attr(data-th);
       font-weight: bold;
   }
+
+  header{
+    flex-direction: column;
+  }
 }
