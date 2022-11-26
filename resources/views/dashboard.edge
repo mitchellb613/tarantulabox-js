@@ -7,14 +7,16 @@
         <a href="/user/tarantulas/create">+ Add New Tarantula</a>
     </div>
     <table>
-        <tr>
-            <th>Image</th>
-            <th>Name</th>
-            <th>Species</th>
-            <th>Next Feed</th>
-            <th>Interval</th>
-            <th>X</th>
-        </tr>
+        <thead>
+            <tr>
+                <th>Image</th>
+                <th>Name</th>
+                <th>Species</th>
+                <th>Next Feed</th>
+                <th>Interval</th>
+                <th>X</th>
+            </tr>
+        </thead>
         @each(tarantula in tarantulas)
             <tr>
                 <td>
@@ -25,9 +27,9 @@
                     @end    
                 </td>
                 <td><a href="{{"/user/tarantulas/" + tarantula.id}}">{{tarantula.name}}</a></td>
-                <td>{{tarantula.species}}</td>
-                <td>{{tarantula.next_feed_date.toISODate()}}</td>
-                <td>{{tarantula.feed_interval_days}} days</td>
+                <td data-th="Species: ">{{tarantula.species}}</td>
+                <td data-th="Next Feed: ">{{tarantula.next_feed_date.toISODate()}}</td>
+                <td data-th="Interval: ">{{tarantula.feed_interval_days}} days</td>
                 <td>
                     <form action="{{"/user/tarantulas/" + tarantula.id + "/delete?_method=DELETE"}}" method="POST">
                         {{ csrfField() }}

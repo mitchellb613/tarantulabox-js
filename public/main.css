@@ -181,3 +181,18 @@ footer {
   width: 250px;
   border: 1px solid black;
 }
+
+@media only screen and (max-width: 40em) {
+  thead {
+      display: none;
+  }
+
+  td, th {
+      display: block;
+  }
+
+  td[data-th]:before  {
+      content: attr(data-th);
+      font-weight: bold;
+  }
+}
