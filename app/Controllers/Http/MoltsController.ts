@@ -44,7 +44,7 @@ export default class MoltsController {
     }
     if (payload.moltImg) {
       await payload.moltImg.moveToDisk('/')
-      molt.img_url = payload.moltImg.fileName || molt.img_url
+      molt.img_url = payload.moltImg.fileName ?? molt.img_url
     }
     molt.note = payload.note
     molt.date = payload.date

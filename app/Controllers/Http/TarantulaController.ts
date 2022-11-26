@@ -18,7 +18,7 @@ export default class TarantulaController {
     await user.related('tarantulas').create({
       name: payload.name,
       species: payload.species,
-      img_url: payload.tarantula_image?.fileName || null,
+      img_url: payload.tarantula_image?.fileName ?? null,
       next_feed_date: payload.next_feed_date,
       feed_interval_days: payload.feed_interval_days,
     })
@@ -96,7 +96,7 @@ export default class TarantulaController {
     }
     if (payload.tarantula_image) {
       await payload.tarantula_image.moveToDisk('/')
-      tarantula.img_url = payload.tarantula_image.fileName || tarantula.img_url
+      tarantula.img_url = payload.tarantula_image.fileName ?? tarantula.img_url
     }
     tarantula.name = payload.name
     tarantula.species = payload.species

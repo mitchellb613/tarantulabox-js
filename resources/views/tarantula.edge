@@ -31,7 +31,7 @@
                     @end
                 </td>
                 <td>{{molt.date.toISODate()}}</td>
-                <td>{{molt.note || '-'}}</td>
+                <td>{{molt.note ?? '-'}}</td>
                 <td>
                     <form action="{{"/user/tarantulas/" + tarantula.id + "\/molts/" + molt.id + "/delete?_method=DELETE"}}" method="POST">
                         {{ csrfField() }}
