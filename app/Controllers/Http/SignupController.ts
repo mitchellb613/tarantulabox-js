@@ -1,7 +1,6 @@
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import { schema, rules } from '@ioc:Adonis/Core/Validator'
 import User from 'App/Models/User'
-// import { HandleFormError } from 'helpers/HandleFormError'
 
 export default class SignupController {
   public async index(ctx: HttpContextContract) {
