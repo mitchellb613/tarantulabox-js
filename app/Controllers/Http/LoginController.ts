@@ -1,21 +1,64 @@
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
-import { schema, rules } from '@ioc:Adonis/Core/Validator'
+import User from 'App/Models/User'
 
 export default class LoginController {
   public async index(ctx: HttpContextContract) {
     return await ctx.view.render('login')
   }
 
-  public async post(ctx: HttpContextContract) {
-    const loginSchema = schema.create({
-      email: schema.string([rules.email()]),
-      password: schema.string([rules.minLength(8)]),
+  public async githubCallback(ctx: HttpContextContract) {
+    const github = ctx.ally.use('github')
+
+    if (github.accessDenied()) {
+      ctx.session.flash('global_message', 'Access denied, please try again')
+      return ctx.response.redirect('/user/login')
+    }
+
+    if (github.stateMisMatch()) {
+      ctx.session.flash('global_message', 'Request expired, please try again')
+      return ctx.response.redirect('/user/login')
+    }
+
+    if (github.hasError()) {
+      ctx.session.flash('global_message', 'Login failed, please try again')
+      return ctx.response.redirect('/user/login')
+    }
+
+    const githubUser = await github.user()
+
+    const user = await User.firstOrCreate({
+      email: githubUser.email ?? undefined,
     })
-    const payload = await ctx.request.validate({
-      schema: loginSchema,
+
+    await ctx.auth.use('web').login(user)
+    return ctx.response.redirect('/user/tarantulas')
+  }
+
+  public async discordCallback(ctx: HttpContextContract) {
+    const discord = ctx.ally.use('discord')
+
+    if (discord.accessDenied()) {
+      ctx.session.flash('global_message', 'Access denied, please try again')
+      return ctx.response.redirect('/user/login')
+    }
+
+    if (discord.stateMisMatch()) {
+      ctx.session.flash('global_message', 'Request expired, please try again')
+      return ctx.response.redirect('/user/login')
+    }
+
+    if (discord.hasError()) {
+      ctx.session.flash('global_message', 'Login failed, please try again')
+      return ctx.response.redirect('/user/login')
+    }
+
+    const discordUser = await discord.user()
+
+    const user = await User.firstOrCreate({
+      email: discordUser.email ?? undefined,
     })
-    await ctx.auth.use('web').attempt(payload.email, payload.password)
-    ctx.session.flash('global_message', 'Successfully logged in')
+
+    await ctx.auth.use('web').login(user)
     return ctx.response.redirect('/user/tarantulas')
   }
 }

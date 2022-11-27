@@ -223,3 +223,13 @@ footer {
   height: 24px;
   width: 24px;
 }
+
+.blurple {
+  background-color: #5865F2 !important;
+  color: white !important;
+}
+
+.auth-icon {
+  height: 32px;
+  width: 32px;
+}

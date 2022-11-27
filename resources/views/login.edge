@@ -2,24 +2,11 @@
 @set('title', 'Login')
 
 @section('main')
-    <form action="/user/login" method="POST">
-        {{ csrfField() }}
-        <div>
-            <label>Email:</label>
-            @if(flashMessages.has('errors.email'))
-                <label> {{ flashMessages.get('errors.email') }} </label>
-            @end
-            <input type="email" name="email" value="{{flashMessages.get('email') ?? ''}}">
-        </div>
-        <div>
-            <label>Password:</label>
-            @if(flashMessages.has('errors.password'))
-                <label> {{ flashMessages.get('errors.password') }} </label>
-            @end
-            <input type="password" name="password" />
-        </div>
-        <div>
-            <input type="submit" value="Login" />
-        </div>
-    </form>
+<div class="d-flex justify-content-center text-center">
+    <div class="my-2 d-flex flex-column col-md-6">
+        <h1>Login</h1>
+        <a href="/github/redirect" class="btn btn-dark mb-2"><img src="/GitHub-Mark-Light-32px.png" alt="github logo"> Continue with GitHub</a>
+        <a href="/discord/redirect" class="btn mb-2 blurple"><img class="auth-icon" src="/discord-mark-white.svg" alt="discord logo"> Continue with Discord</a>
+    </div>
+</div>
 @end

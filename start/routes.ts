@@ -24,13 +24,19 @@ Route.get('/', async ({ view }) => {
   return await view.render('home')
 })
 
-Route.get('/user/signup', 'SignupController.index')
-
-Route.post('/user/signup', 'SignupController.post')
-
 Route.get('/user/login', 'LoginController.index')
 
-Route.post('/user/login', 'LoginController.post')
+Route.get('/github/callback', 'LoginController.githubCallback')
+
+Route.get('/github/redirect', async ({ ally }) => {
+  return ally.use('github').redirect()
+})
+
+Route.get('/discord/callback', 'LoginController.discordCallback')
+
+Route.get('/discord/redirect', async ({ ally }) => {
+  return ally.use('discord').redirect()
+})
 
 Route.group(() => {
   Route.post('/user/logout', async ({ auth, response, session }) => {
