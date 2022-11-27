@@ -2,49 +2,31 @@
 @set('title', 'Dashboard')
 
 @section('main')
-<div class="flex-spaced">
-    <div class="tarantula-container">
-        <h1>{{tarantula.name}}</h1>
-        @if(tarantula.img_url)
-                    <img class="tarantula-img" src="{{tarantula.img_url}}" alt="-">
-                    @else
-                    -
-                    @end
-        <h2>{{tarantula.species}}</h2>
+<div class="row">
+    <div class="col-lg-4">
+        <h2>{{tarantula.name}}</h2>
+        <img class="img-fluid" src="{{tarantula.img_url ?? "/card-image.svg"}}" alt="Tarantula image">
+        <h3>{{tarantula.species}}</h3>
     </div>
-    <div class="grow text-align-right">
-        <a href="{{"/user/tarantulas/" + tarantula.id + "/molts/create"}}">+ Log a Molt</a>
-        <table>
-            <thead>
-                <tr>
-                    <th>Image</th>
-                    <th>Date</th>
-                    <th>Note</th>
-                    <th>X</th>
-                </tr>
-            </thead>
-            @each(molt in molts)
-            <tr>
-                <td>
-                    @if(molt.img_url)
-                    <img class="thumbnail" src="{{molt.img_url}}" alt="-">
-                    @else
-                    -
-                    @end
-                </td>
-                <td data-th="Date: ">{{molt.date.toISODate()}}</td>
-                <td data-th="Note: ">{{molt.note ?? '-'}}</td>
-                <td>
-                    <form action="{{"/user/tarantulas/" + tarantula.id + "\/molts/" + molt.id + "/delete?_method=DELETE"}}" method="POST">
-                        {{ csrfField() }}
-                        <button>Delete</button>
-                        /
-                        <a href="{{"/user/tarantulas/" + tarantula.id + "\/molts/" + molt.id + "/update" }}">Edit</a>
-                    </form>
-                </td>
-            </tr>
-            @end
-        </table>
+    <div class="col-lg-8">
+        <div class="d-flex justify-content-between">
+            <h2>Molt log:</h2>
+            <a class="btn btn-success my-1" href="{{"/user/tarantulas/" + tarantula.id + "/molts/create"}}">+ Log a Molt</a>
+        </div>
+        @each(molt in molts)
+        <div class="card tarantula-card col-lg-4 bg-light">
+            <img src="{{molt.img_url ?? "/card-image.svg"}}" alt="" class="card-img-top">
+            <p class="card-text">Date: {{molt.date.toISODate()}}</h6>
+            <p class="card-text">Note: {{molt.note ?? "-"}}</h6>
+            <div class="d-flex">
+                <a href="{{ "/user/tarantulas/" + tarantula.id + "\/molts/" + molt.id + "/update" }}" class="btn btn-primary me-2">Update</a>
+                <form action="{{"/user/tarantulas/" + tarantula.id + "\/molts/" + molt.id + "/delete?_method=DELETE"}}" method="POST">
+                    {{ csrfField() }}
+                    <button class="btn btn-danger">Delete</button>
+                </form>
+            </div>
+        </div>
+        @end
     </div>
 </div>
 @end

@@ -3,43 +3,28 @@
 
 @section('main')
 <div>
-    <div class="text-align-right">
-        <a href="/user/tarantulas/create">+ Add New Tarantula</a>
+    <div class="text-end">
+        <a class="btn btn-success my-1" href="/user/tarantulas/create">+ Add New Tarantula</a>
     </div>
-    <table>
-        <thead>
-            <tr>
-                <th>Image</th>
-                <th>Name</th>
-                <th>Species</th>
-                <th>Next Feed</th>
-                <th>Interval</th>
-                <th>X</th>
-            </tr>
-        </thead>
-        @each(tarantula in tarantulas)
-            <tr>
-                <td>
-                    @if(tarantula.img_url)
-                    <img class="thumbnail" src="{{tarantula.img_url}}" alt="-">
-                    @else
-                    -
-                    @end    
-                </td>
-                <td><a href="{{"/user/tarantulas/" + tarantula.id}}">{{tarantula.name}}</a></td>
-                <td data-th="Species: ">{{tarantula.species}}</td>
-                <td data-th="Next Feed: ">{{tarantula.next_feed_date.toISODate()}}</td>
-                <td data-th="Interval: ">{{tarantula.feed_interval_days}} days</td>
-                <td>
-                    <form action="{{"/user/tarantulas/" + tarantula.id + "/delete?_method=DELETE"}}" method="POST">
-                        {{ csrfField() }}
-                        <button>Delete</button>
-                        /
-                        <a href="{{"/user/tarantulas/" + tarantula.id + "/update" }}">Edit</a>
-                    </form>
-                </td>
-            </tr>
+        <div class="row">
+            @each(tarantula in tarantulas)
+            <div class="card tarantula-card col-md-6 col-lg-4 col-xl-3 bg-light">
+                <img src="{{tarantula.img_url ?? "/card-image.svg"}}" alt="-" class="card-img-top" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title"><a href="{{"/user/tarantulas/" + tarantula.id}}">{{tarantula.name}}</a></h5>
+                    <p class="card-text">Species: {{tarantula.species}}</h6>
+                    <p class="card-text">Next Feed: {{tarantula.next_feed_date.toISODate()}}</h6>
+                    <p class="card-text">Interval: {{tarantula.feed_interval_days}} days</p>
+                    <div class="d-flex">
+                        <a href="{{"/user/tarantulas/" + tarantula.id + "/update" }}" class="btn btn-primary me-2">Update</a>
+                        <form action="{{"/user/tarantulas/" + tarantula.id + "/delete?_method=DELETE"}}" method="POST">
+                            {{ csrfField() }}
+                            <button class="btn btn-danger">Delete</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
         @end
-    </table>
+        </div>
 </div>
 @end

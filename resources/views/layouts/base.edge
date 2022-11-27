@@ -6,20 +6,22 @@
     <title>Tarantulabox - {{ title }}</title>
     <link href="https://fonts.googleapis.com/css2?family=Lato&display=swap" rel="stylesheet">
     <link href="/main.css" rel="stylesheet" >
+    <link href="/bootstrap.min.css" rel="stylesheet" >
 </head>
     <body>
         <header>
-            <h1><a href="/">Tarantulabox</a></h1>
             @include('partials/nav')
         </header>
-    <main>
+    <main class="container-sm">
         @if(flashMessages.has('global_message'))
             <div>{{ flashMessages.get('global_message') }}</div>
         @end
         @!section('main')
     </main>
-    <footer>
-        Powered by <a href="https://adonisjs.com/">AdonisJS</a> in {{new Date().getFullYear()}}
+    <footer class="navbar fixed-bottom">
+        <div>
+            Powered by <a href="https://adonisjs.com/">AdonisJS</a> in {{new Date().getFullYear()}}
+        </div>
     </footer>
   </body>
 </html>

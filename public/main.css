@@ -1,4 +1,4 @@
-* {
+/* * {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
@@ -16,8 +16,6 @@ body {
   color: #b3003b;
   overflow-y: scroll;
   min-height: 100vh;
-  display: flex;
-  flex-direction: column;
 }
 
 main {
@@ -207,4 +205,21 @@ footer {
   .flex-spaced {
     flex-direction: column;
   }
+} */
+
+.tarantula-card {
+  width: 18rem;
+}
+
+.card-img-top {
+  height: 200px;
+}
+
+.img-fluid {
+  max-height: 300px;
+}
+
+.logout-img {
+  height: 24px;
+  width: 24px;
 }
