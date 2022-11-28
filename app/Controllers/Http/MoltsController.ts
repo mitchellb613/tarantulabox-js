@@ -3,6 +3,7 @@ import Drive from '@ioc:Adonis/Core/Drive'
 import Molt from 'App/Models/Molt'
 import Tarantula from 'App/Models/Tarantula'
 import MoltValidator from 'App/Validators/MoltValidator'
+import User from 'App/Models/User'
 
 export default class MoltsController {
   public async createForm(ctx: HttpContextContract) {
@@ -14,8 +15,11 @@ export default class MoltsController {
   }
 
   public async create(ctx: HttpContextContract) {
+    const user = await User.findOrFail(ctx.auth.user?.id)
     const payload = await ctx.request.validate(MoltValidator)
     if (payload.moltImg) {
+      user.file_count += 1
+      await user.save()
       await payload.moltImg.moveToDisk('/')
     }
     const tarantula = await Tarantula.findOrFail(ctx.params.tarantulaId)
@@ -54,8 +58,11 @@ export default class MoltsController {
   }
 
   public async delete(ctx: HttpContextContract) {
+    const user = await User.findOrFail(ctx.auth.user?.id)
     const molt = await this.getMolt(ctx)
     if (molt.img_url) {
+      user.file_count -= 1
+      await user.save()
       Drive.delete(molt.img_url)
     }
     await molt.delete()

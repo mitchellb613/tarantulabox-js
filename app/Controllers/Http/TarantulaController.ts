@@ -13,6 +13,8 @@ export default class TarantulaController {
     const payload = await ctx.request.validate(TarantulaValidator)
     const user = await User.findOrFail(ctx.auth.user?.id)
     if (payload.tarantula_image) {
+      user.file_count += 1
+      await user.save()
       await payload.tarantula_image.moveToDisk('/')
     }
     await user.related('tarantulas').create({
@@ -107,6 +109,7 @@ export default class TarantulaController {
     return ctx.response.redirect('/user/tarantulas')
   }
   public async delete(ctx: HttpContextContract) {
+    const user = await User.findOrFail(ctx.auth.user?.id)
     const tarantula = await Tarantula.query()
       .where('id', ctx.params.tarantulaId)
       .preload('molts')
@@ -115,13 +118,16 @@ export default class TarantulaController {
       return ctx.response.unauthorized('Unauthorized')
     }
     if (tarantula.img_url) {
+      user.file_count -= 1
       Drive.delete(tarantula.img_url)
     }
     for (const molt of tarantula.molts) {
       if (molt.img_url) {
+        user.file_count -= 1
         Drive.delete(molt.img_url)
       }
     }
+    await user.save()
     await tarantula.delete()
     ctx.session.flash('global_message', 'Tarantula deleted')
     return ctx.response.redirect('/user/tarantulas')
