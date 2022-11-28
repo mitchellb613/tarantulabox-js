@@ -19,12 +19,20 @@
 */
 
 import Route from '@ioc:Adonis/Core/Route'
+import User from 'App/Models/User'
 
 Route.get('/', async ({ view }) => {
   return await view.render('home')
 })
 
 Route.get('/user/login', 'LoginController.index')
+
+Route.post('/user/notify/toggle', async ({ auth, response }) => {
+  const user = await User.findOrFail(auth.user?.id)
+  user.notify = !user.notify
+  await user.save()
+  response.redirect().back()
+})
 
 Route.get('/github/callback', 'LoginController.githubCallback')
 

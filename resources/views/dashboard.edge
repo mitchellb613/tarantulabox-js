@@ -3,7 +3,11 @@
 
 @section('main')
 <div>
-    <div class="text-end">
+    <div class="d-flex justify-content-between">
+        <form action="/user/notify/toggle" method="POST">
+            {{ csrfField() }}
+            <button class="btn btn-info my-1">{{auth.user.notify ? "Opt out of notifications" : "Opt in to notifications"}}</button>
+        </form>
         <a class="btn btn-success my-1" href="/user/tarantulas/create">+ Add New Tarantula</a>
     </div>
         <div class="row">
