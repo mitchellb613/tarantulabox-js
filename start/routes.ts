@@ -35,7 +35,9 @@ Route.get('/github/redirect', async ({ ally }) => {
 Route.get('/discord/callback', 'LoginController.discordCallback')
 
 Route.get('/discord/redirect', async ({ ally }) => {
-  return ally.use('discord').redirect()
+  return ally.use('discord').redirect((request) => {
+    request.scopes(['identify', 'email'])
+  })
 })
 
 Route.group(() => {
