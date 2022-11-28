@@ -13,6 +13,10 @@ export default class TarantulaController {
     const payload = await ctx.request.validate(TarantulaValidator)
     const user = await User.findOrFail(ctx.auth.user?.id)
     if (payload.tarantula_image) {
+      if (user.file_count >= 5) {
+        ctx.session.flash('global_message', 'File limit reached!')
+        return ctx.response.redirect().back()
+      }
       user.file_count += 1
       await user.save()
       await payload.tarantula_image.moveToDisk('/')
