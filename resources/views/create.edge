@@ -5,46 +5,45 @@
 <h2>Add A New Tarantula</h2>
 <form action="/user/tarantulas" method="POST" enctype="multipart/form-data">
     {{ csrfField() }}
-    <div>
+    <div class="form-group">
         <label>Name:</label>
         @if(flashMessages.has('errors.name'))
                 <label> {{ flashMessages.get('errors.name') }} </label>
         @end
-        <input type="text" name="name" value="{{ flashMessages.get('name') ?? ''}}">
+        <input class="form-control" type="text" name="name" value="{{ flashMessages.get('name') ?? ''}}">
     </div>
-    <div>
+    <div class="form-group">
         <label>Species:</label>
         @if(flashMessages.has('errors.species'))
                 <label> {{ flashMessages.get('errors.species') }} </label>
         @end
-        <input type="text" name="species" value="{{ flashMessages.get('species') ?? '' }}">
+        <input class="form-control" type="text" name="species" value="{{ flashMessages.get('species') ?? '' }}">
     </div>
-    <div class="flex-spaced">
-        <div>
+    <div class="row align-items-center mb-2">
+        <div class="form-group col-md-4">
             <label>Image:</label>
             @if(flashMessages.has('errors.tarantula_image'))
                     <label> {{ flashMessages.get('errors.tarantula_image') }} </label>
             @end
-            <input type="file" id="tarantulaImage" name="tarantula_image" accept="image/png, image/jpeg">
+            <input class="form-control-file " type="file" id="tarantulaImage" name="tarantula_image" accept="image/png, image/jpeg">
         </div>
-        <div>
+        <div class="form-group col-md-4">
             <label>Next Feed Date:</label>
             @if(flashMessages.has('errors.next_feed_date'))
                 <label> {{ flashMessages.get('errors.next_feed_date') }} </label>
             @end
-            <input type="date" name="next_feed_date" value="{{ flashMessages.get('next_feed_date') ?? '' }}" >
+            <input class="form-control" type="date" name="next_feed_date" value="{{ flashMessages.get('next_feed_date') ?? '' }}" >
         </div>
-        <div>
-            <label>Feeding Interval</label>
+        <div class="form-group col-md-4">
+            <label>Feeding Interval (days)</label>
             @if(flashMessages.has('errors.feed_interval_days'))
                 <label> {{ flashMessages.get('errors.feed_interval_days') }} </label>
             @end
-            <input type="number" name="feed_interval_days" value="{{ flashMessages.get('feed_interval_days') ?? '' }}">
-            &nbspDays
+            <input class="form-control" type="number" name="feed_interval_days" value="{{ flashMessages.get('feed_interval_days') ?? '' }}">
         </div>
     </div>
-    <div>
-        <input type="submit" value="Add Tarantula">
+    <div class="form-group">
+        <input class="form-control btn btn-primary" type="submit" value="Add Tarantula">
     </div>
 </form>
 @end

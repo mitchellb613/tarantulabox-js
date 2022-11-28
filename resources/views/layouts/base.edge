@@ -14,7 +14,7 @@
         </header>
     <main class="container-sm">
         @if(flashMessages.has('global_message'))
-            <div>{{ flashMessages.get('global_message') }}</div>
+            <div class="bg-success d-flex justify-content-center"><h2>{{ flashMessages.get('global_message') }}</h2></div>
         @end
         @!section('main')
     </main>

@@ -5,29 +5,29 @@
 <div>
     <form action={{"/user/tarantulas/" + tarantula.id + "/molts"}} method="POST" enctype="multipart/form-data">
         {{ csrfField() }}
-        <div>
+        <div class="form-group">
             <label for="note">Note:</label>
             @if(flashMessages.has('errors.note'))
                     <label> {{ flashMessages.get('errors.note') }} </label>
             @end
-            <input type="text" name="note" id="note" value="{{flashMessages.get('note', '')}}">
+            <input class="form-control" type="text" name="note" id="note" value="{{flashMessages.get('note', '')}}">
         </div>
-        <div>
+        <div class="form-group">
             @if(flashMessages.has('errors.date'))
                     <label> {{ flashMessages.get('errors.date') }} </label>
             @end
             <label for="date">Date:</label>
-            <input type="date" name="date" id="date" value="{{new Date().toISOString().substring(0, 10)}}">
+            <input class="form-control" type="date" name="date" id="date" value="{{new Date().toISOString().substring(0, 10)}}">
         </div>
-        <div>
+        <div class="form-group">
             @if(flashMessages.has('errors.moltImg'))
                     <label> {{ flashMessages.get('errors.moltImg') }} </label>
             @end
             <label for="moltImg">Image:</label>
-            <input type="file" name="moltImg" id="moltImg">
+            <input class="form-control-file my-2" type="file" name="moltImg" id="moltImg">
         </div>
         <div>
-            <input type="submit" value="Add Log" />
+            <input class="form-control btn btn-primary" type="submit" value="Add Log" />
         </div>
     </form>
 </div>
