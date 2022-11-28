@@ -31,7 +31,7 @@ export default class SendReminder extends BaseCommand {
   }
 
   public async run() {
-    const users = await User.query().where('notify', true)
+    const users = await User.query()
     for (const user of users) {
       const tarantulas = await user
         .related('tarantulas')
@@ -46,7 +46,9 @@ export default class SendReminder extends BaseCommand {
         })
         await tarantula.save()
       }
-      await new ReminderEmail(user, tarantulas).send()
+      if (user.notify) {
+        await new ReminderEmail(user, tarantulas).send()
+      }
     }
   }
 }
