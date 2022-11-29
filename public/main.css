@@ -233,3 +233,27 @@ footer {
   height: 32px;
   width: 32px;
 }
+
+.bg-img-container {
+background-image: url("tarantula-bg.jpg");
+height: 60vh;
+background-size: cover;
+position: relative;
+text-align: center;
+}
+
+.welcome-header {
+  background: rgba(0, 0, 0, 0.7);
+  width: 100%;
+}
+
+.black-bg-100 {
+  background-color: #181818 !important;
+}
+
+@media (max-width: 480px) { 
+  .container-sm {
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+ }

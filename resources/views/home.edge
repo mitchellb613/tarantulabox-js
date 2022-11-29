@@ -2,5 +2,16 @@
 @set('title', 'Home')
 
 @section('main')
-    <h1>Welcome to Tarantulabox!</h1>
+    <div class="bg-img-container d-flex flex-column justify-content-center">
+        <div class="welcome-header text-white d-flex flex-column align-items-center">
+            <h1>Fill your box!</h1>
+            <div class="my-2 d-flex flex-column col-md-6">
+                <a href="/github/redirect" class="btn btn-dark mb-2"><img src="/GitHub-Mark-Light-32px.png" alt="github logo"> Continue with GitHub</a>
+                <a href="/discord/redirect" class="btn mb-2 blurple"><img class="auth-icon" src="/discord-mark-white.svg" alt="discord logo"> Continue with Discord</a>
+            </div>
+        </div>
+    </div>
+    <div class="bg-dark">
+        <h5 class="text-left text-white p-4 h-100">Tarantulabox is the place to track and manage your tarantulas! To get started sign in with GitHub or Discord above then you can opt-in to feeding reminders sent to the email you signed up with! I have created this site as part of my web development portfolio. Please send questions or suggestions to mkb.061397@gmail.com</p>
+    </div>
 @end
