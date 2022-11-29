@@ -8,7 +8,7 @@
     <link href="/main.css" rel="stylesheet" >
     <link href="/bootstrap.min.css" rel="stylesheet" >
 </head>
-    <body>
+    <body class="d-flex flex-column">
         <header>
             @include('partials/nav')
         </header>
@@ -18,7 +18,7 @@
         @end
         @!section('main')
     </main>
-    <footer class="navbar fixed-bottom container-sm">
+    <footer class="container-sm mt-auto">
         <div>
             Powered by <a href="https://adonisjs.com/">AdonisJS</a> in {{new Date().getFullYear()}}
         </div>

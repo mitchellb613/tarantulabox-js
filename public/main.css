@@ -251,6 +251,10 @@ text-align: center;
   background-color: #181818 !important;
 }
 
+body {
+  min-height: 100vh;
+}
+
 @media (max-width: 480px) { 
   .container-sm {
     padding: 0 !important;
