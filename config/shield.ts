@@ -45,8 +45,9 @@ export const csp: ShieldConfig['csp'] = {
   */
   directives: {
     defaultSrc: ["'self'"],
-    styleSrc: ["'self'", 'https://fonts.googleapis.com'],
+    styleSrc: ["'self'", 'https://tarantulabox.b-cdn.net/', 'https://fonts.googleapis.com'],
     fontSrc: ["'self'", 'https://fonts.gstatic.com'],
+    imgSrc: ["'self'", 'https://tarantulabox.b-cdn.net/'],
     baseUri: ["'self'"],
     formAction: ["'self'"],
   },

@@ -235,7 +235,7 @@ footer {
 }
 
 .bg-img-container {
-background-image: url("tarantula-bg.jpg");
+background-image: url("https://tarantulabox.b-cdn.net/tarantula-bg.webp");
 height: 60vh;
 background-size: cover;
 position: relative;
